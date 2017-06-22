@@ -1,0 +1,23 @@
+{
+  "name": "jitters",
+  "version": "1.0.0",
+  "description": "Coffee database API",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jitters-API/jitters.git"
+  },
+  "keywords": [
+    "api",
+    "coffee"
+  ],
+  "author": "The Jitters Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Jitters-API/jitters/issues"
+  },
+  "homepage": "https://github.com/Jitters-API/jitters#readme"
+}
