@@ -4,47 +4,26 @@ const assert = require('chai').assert;
 const { suite, test } = require('mocha');
 const knex = require('../knex');
 const { addDatabaseHooks } = require('./utils')
-suite('coffee migrations', addDatabaseHooks(() => {
-  test('coffee columns', (done) => {
-    knex('coffee').columnInfo()
+suite('coffee_regions migrations', addDatabaseHooks(() => {
+  test('coffee_regions columns', (done) => {
+    knex('coffee_regions').columnInfo()
       .then((actual) => {
         const expected = {
           id: {
             type: 'integer',
             maxLength: null,
             nullable: false,
-            defaultValue: 'nextval(\'coffee_id_seq\'::regclass)'
+            defaultValue: 'nextval(\'coffee_regions_id_seq\'::regclass)'
           },
 
-          name: {
-            type: 'character varying',
-            maxLength: 255,
-            nullable: false,
-            defaultValue: '\'\'::character varying'
-          },
-
-          flavor_profile: {
-            type: 'character varying',
-            maxLength: 255,
-            nullable: false,
-            defaultValue: '\'\'::character varying'
-          },
-
-          varieties: {
-            type: 'character varying',
-            maxLength: 255,
-            nullable: false,
-            defaultValue: '\'\'::character varying'
-          },
-
-          description: {
-            type: 'text',
+          coffee_id: {
+            type: 'integer',
             maxLength: null,
             nullable: false,
-            defaultValue: '\'\'::text'
+            defaultValue: null
           },
 
-          producer_id: {
+          region_id: {
             type: 'integer',
             maxLength: null,
             nullable: false,

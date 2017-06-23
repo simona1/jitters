@@ -1,52 +1,57 @@
 process.env.NODE_ENV = 'test';
 
-const assert = require('chai').assert;
-const { suite, test } = require('mocha');
-const knex = require('../knex');
-const { addDatabaseHooks } = require('./utils')
-suite('coffee migrations', addDatabaseHooks(() => {
-  test('coffee columns', (done) => {
-    knex('coffee').columnInfo()
-      .then((actual) => {
+const assert = require( 'chai' ).assert;
+const {
+  suite,
+  test
+} = require( 'mocha' );
+const knex = require( '../knex' );
+const {
+  addDatabaseHooks
+} = require( './utils' )
+suite( 'users migrations', addDatabaseHooks( () => {
+  test( 'users columns', ( done ) => {
+    knex( 'users' ).columnInfo()
+      .then( ( actual ) => {
         const expected = {
           id: {
             type: 'integer',
             maxLength: null,
             nullable: false,
-            defaultValue: 'nextval(\'coffee_id_seq\'::regclass)'
+            defaultValue: 'nextval(\'users_id_seq\'::regclass)'
           },
 
-          name: {
+          first_name: {
             type: 'character varying',
             maxLength: 255,
             nullable: false,
             defaultValue: '\'\'::character varying'
           },
 
-          flavor_profile: {
+          last_name: {
             type: 'character varying',
             maxLength: 255,
             nullable: false,
             defaultValue: '\'\'::character varying'
           },
 
-          varieties: {
+          username: {
             type: 'character varying',
-            maxLength: 255,
+            maxLength: 20,
             nullable: false,
             defaultValue: '\'\'::character varying'
           },
 
-          description: {
-            type: 'text',
-            maxLength: null,
+          email: {
+            type: 'character varying',
+            maxLength: 255,
             nullable: false,
-            defaultValue: '\'\'::text'
+            defaultValue: null
           },
 
-          producer_id: {
-            type: 'integer',
-            maxLength: null,
+          hashed_password: {
+            type: 'character',
+            maxLength: 60,
             nullable: false,
             defaultValue: null
           },
@@ -66,18 +71,18 @@ suite('coffee migrations', addDatabaseHooks(() => {
           }
         };
 
-        for (const column in expected) {
+        for ( const column in expected ) {
           assert.deepEqual(
-            actual[column],
-            expected[column],
+            actual[ column ],
+            expected[ column ],
             `Column ${column} is not the same`
           );
         }
 
         done();
-      })
-      .catch((err) => {
-        done(err);
-      });
-  });
-}));
+      } )
+      .catch( ( err ) => {
+        done( err );
+      } );
+  } );
+} ) );

@@ -4,16 +4,16 @@ const assert = require('chai').assert;
 const { suite, test } = require('mocha');
 const knex = require('../knex');
 const { addDatabaseHooks } = require('./utils')
-suite('coffee migrations', addDatabaseHooks(() => {
-  test('coffee columns', (done) => {
-    knex('coffee').columnInfo()
+suite('regions migrations', addDatabaseHooks(() => {
+  test('regions columns', (done) => {
+    knex('regions').columnInfo()
       .then((actual) => {
         const expected = {
           id: {
             type: 'integer',
             maxLength: null,
             nullable: false,
-            defaultValue: 'nextval(\'coffee_id_seq\'::regclass)'
+            defaultValue: 'nextval(\'regions_id_seq\'::regclass)'
           },
 
           name: {
@@ -23,29 +23,22 @@ suite('coffee migrations', addDatabaseHooks(() => {
             defaultValue: '\'\'::character varying'
           },
 
-          flavor_profile: {
-            type: 'character varying',
-            maxLength: 255,
-            nullable: false,
-            defaultValue: '\'\'::character varying'
-          },
-
-          varieties: {
-            type: 'character varying',
-            maxLength: 255,
-            nullable: false,
-            defaultValue: '\'\'::character varying'
-          },
-
-          description: {
-            type: 'text',
+          country_id: {
+            type: 'integer',
             maxLength: null,
             nullable: false,
-            defaultValue: '\'\'::text'
+            defaultValue: null
           },
 
-          producer_id: {
-            type: 'integer',
+          lat: {
+            type: 'float',
+            maxLength: null,
+            nullable: false,
+            defaultValue: null
+          },
+
+          long: {
+            type: 'float',
             maxLength: null,
             nullable: false,
             defaultValue: null
