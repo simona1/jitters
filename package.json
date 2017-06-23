@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "mocha"
+    "test": "mocha",
+    "coverage": "istanbul cover _mocha -- -R spec"
   },
   "repository": {
     "type": "git",
