@@ -23,22 +23,15 @@ suite('countries migrations', addDatabaseHooks(() => {
             defaultValue: '\'\'::character varying'
           },
 
-          country_id: {
-            type: 'integer',
-            maxLength: null,
-            nullable: false,
-            defaultValue: null
-          },
-
           lat: {
-            type: 'float',
+            type: 'real',
             maxLength: null,
             nullable: false,
             defaultValue: null
           },
 
           long: {
-            type: 'float',
+            type: 'real',
             maxLength: null,
             nullable: false,
             defaultValue: null
