@@ -3,8 +3,8 @@
 exports.up = function(knex) {
   return knex.schema.createTable('favorites', (table) => {
     table.increments('id').primary();
-    table.integer('user_id').references('users.id').onDelete('CASCADE');
-    table.integer('coffee_id').references('coffee.id').onDelete('CASCADE');
+    table.integer('user_id').references('users.id').notNullable().onDelete('CASCADE');
+    table.integer('coffee_id').references('coffee.id').notNullable().onDelete('CASCADE');
     table.timestamps(true, true);
   });
 };

@@ -3,7 +3,7 @@
 exports.up = function(knex) {
   return knex.schema.createTable('producers', (table) => {
     table.increments('id').primary();
-    table.integer('country_id').references('country.id').onDelete('CASCADE');
+    table.integer('country_id').references('countries.id').notNullable().onDelete('CASCADE');
     table.string('name').notNullable().defaultTo('');
     table.timestamps(true, true);
   });
