@@ -31,14 +31,14 @@ suite('regions migrations', addDatabaseHooks(() => {
           },
 
           lat: {
-            type: 'numeric',
+            type: 'real',
             maxLength: null,
             nullable: false,
             defaultValue: null
           },
 
           long: {
-            type: 'numeric',
+            type: 'real',
             maxLength: null,
             nullable: false,
             defaultValue: null

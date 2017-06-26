@@ -5,8 +5,8 @@ exports.up = function(knex) {
     table.increments('id').primary();
     table.integer('country_id').references('countries.id').notNullable();
     table.string('name').notNullable().defaultTo('');
-    table.decimal('lat', 10, 7).notNullable().defaultTo(null);
-    table.decimal('long', 10, 7).notNullable().defaultTo(null);
+    table.float('lat', 10, 7).notNullable().defaultTo(null);
+    table.float('long', 10, 7).notNullable().defaultTo(null);
     table.timestamps(true, true);
   });
 };

@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/Jitters-API/jitters#readme",
   "dependencies": {
+    "apidoc": "^0.17.6",
     "bcrypt": "^1.0.2",
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
