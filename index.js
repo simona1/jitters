@@ -4,6 +4,10 @@ const express = require('express');
 
 const app = express();
 
+const countries = require('./src/routes/countries');
+
+app.use(countries);
+
 app.use((req, res) => {
   res.sendStatus(404);
 });

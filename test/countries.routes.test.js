@@ -14,24 +14,27 @@ suite('countries routes', addDatabaseHooks(() => {
       .get('/countries')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(200, [{
+      .expect(200, [
+        {
+          id: 2,
+          name: 'Ethiopia',
+          lat: 9.145,
+          long: 40.489673,
+          createdAt: '2017-06-23T14:56:16.000Z',
+          updatedAt: '2017-06-23T14:56:16.000Z'
+        },
+        {
         id: 1,
         name: 'United States',
         lat: 37.09024,
         long: -95.712891,
-        created_at: new Date('2017-06-23 14:56:16 UTC'),
-        updated_at: new Date('2017-06-23 14:56:16 UTC')
-      },
-      {
-        id: 2,
-        name: 'Ethiopia',
-        lat: 9.145,
-        long: 40.489673,
-        created_at: new Date('2017-06-23 14:56:16 UTC'),
-        updated_at: new Date('2017-06-23 14:56:16 UTC')
-      }], done);
+        createdAt: '2017-06-23T14:56:16.000Z',
+        updatedAt: '2017-06-23T14:56:16.000Z'
+      }
+    ], done);
+
 
       /* eslint-enable max-len */
-  });
+  })
 
 }));
