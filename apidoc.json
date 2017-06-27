@@ -1,0 +1,8 @@
+{
+ "name": "Jitters API documentation",
+ "version": "1.0.0",
+ "description": "API routes list manager",
+ "template": {
+   "forcelangauge": "en"
+ }
+}
