@@ -32,9 +32,28 @@ suite('countries routes', addDatabaseHooks(() => {
         updatedAt: '2017-06-23T14:56:16.000Z'
       }
     ], done);
+    /* eslint-enable max-len */
+});
 
-
-      /* eslint-enable max-len */
-  })
+  test('GET /countries/:id', (done) => {
+    /* eslint-disable max-len */
+    request(server)
+      .get('/countries/2')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200, [{
+        "countryName": "Ethiopia",
+        "description": "Lorem ipsum",
+        "flavorProfile": "Fruity, radiant, creamy",
+        "id": 1,
+        "lat": 6.16205,
+        "long": 38.2058,
+        "name": "Three Africas",
+        "producerId": 1,
+        "regionName": "Yirgacheffe",
+        "varieties": "Heirloom"
+      }], done);
+          /* eslint-enable max-len */
+  });
 
 }));

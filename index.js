@@ -4,6 +4,8 @@ const express = require('express');
 
 const app = express();
 
+app.use(express.static('public'));
+
 const countries = require('./src/routes/countries');
 
 app.use(countries);
