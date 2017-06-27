@@ -7,9 +7,11 @@ const app = express();
 app.use(express.static('public'));
 
 const countries = require('./src/routes/countries');
+const regions = require('./src/routes/regions');
 const producers = require('./src/routes/producers');
 
 app.use(countries);
+app.use(regions);
 app.use(producers);
 
 app.use((req, res) => {
