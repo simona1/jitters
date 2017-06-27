@@ -9,10 +9,12 @@ app.use(express.static('public'));
 const countries = require('./src/routes/countries');
 const regions = require('./src/routes/regions');
 const producers = require('./src/routes/producers');
+const coffee = require('./src/routes/coffee');
 
 app.use(countries);
 app.use(regions);
 app.use(producers);
+app.use(coffee);
 
 app.use((req, res) => {
   res.sendStatus(404);
