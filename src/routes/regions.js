@@ -21,7 +21,6 @@ router.get('/regions', (req, res) => {
 });
 
 router.get('/regions/:id', (req, res) => {
-  console.log('this');
 
   const id = req.params.id;
   regions.getCoffeeByRegionId(id)
@@ -33,30 +32,30 @@ router.get('/regions/:id', (req, res) => {
   });
 });
 
-router.post('/regions', (req, res) => {
-  let region = req.body;
-  console.log(region);
-
-
-  if (!undefined.name) {
-    res.set('Content-Type','text/plain');
-    res.status(400).send('Region must have a name');
-    return;
-  }
-
-  let coordinates = getGpsCoordinates(region.name)
-  region.lat = coordinates.lat;
-  region.long = coordinates.long;
-
-    regions.addRegion(region)
-    .then(region => {
-      res.setHeader('Content-Type', 'application/json')
-      console.log(region);
-      return res.send(region[0]);
-    })
-    .catch(err => {
-      res.sendStatus(500);
-    });
-});
+// router.post('/regions', (req, res) => {
+//   let region = req.body;
+//   console.log(region);
+//
+//
+//   if (!undefined.name) {
+//     res.set('Content-Type','text/plain');
+//     res.status(400).send('Region must have a name');
+//     return;
+//   }
+//
+//   let coordinates = getGpsCoordinates(region.name)
+//   region.lat = coordinates.lat;
+//   region.long = coordinates.long;
+//
+//     regions.addRegion(region)
+//     .then(region => {
+//       res.setHeader('Content-Type', 'application/json')
+//       console.log(region);
+//       return res.send(region[0]);
+//     })
+//     .catch(err => {
+//       res.sendStatus(500);
+//     });
+// });
 
 module.exports = router;

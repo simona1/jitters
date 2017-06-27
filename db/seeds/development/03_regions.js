@@ -8,8 +8,8 @@ exports.seed = function(knex, Promise) {
           id: 1,
           country_id: 2,
           name: 'Yirgacheffe',
-          lat: 6.162045,
-          long: 38.205815,
+          lat: 6.1620450,
+          long: 38.2058150,
           created_at: new Date('2017-06-23 14:56:16 UTC'),
           updated_at: new Date('2017-06-23 14:56:16 UTC')
         }])
