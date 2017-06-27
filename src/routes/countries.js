@@ -79,7 +79,6 @@ router.get('/countries', (req, res) => {
  * @apiErrorExample {json} Find error
  *    HTTP/1.1 500 Internal Server Error
  */
-
 router.get('/countries/:id', (req, res) => {
   const id = req.params.id;
   countries.getCoffeeByCountryId(id)
