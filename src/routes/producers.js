@@ -10,7 +10,7 @@ let producers = new Producer;
 
 /**
  * @api {get} /producers List all producers
- 
+ * @apiVersion 1.0.0
  * @apiGroup Producers
  * @apiSuccess {Object[]} producers Producers list
  * @apiSuccess {Number} producers.id Producer id
@@ -25,7 +25,7 @@ let producers = new Producer;
         "country_id": 1,
         "createdAt": "2017-06-23T14:56:16.000Z",
         "updatedAt": "2017-06-23T14:56:16.000Z"
-    }]
+    } ]
  * @apiErrorExample {json} List error
  *    HTTP/1.1 500 Internal Server Error
  */
@@ -38,5 +38,42 @@ router.get('/producers', (req, res) => {
       res.sendStatus(500);
     });
 });
+
+/**
+ * @api {get} /producers/:id List all producer's coffees
+ * @apiVersion 1.0.0
+ * @apiGroup Producers
+ * @apiSuccess {Object[]} producers Producers Coffee list
+ * @apiSuccess {Number} producersId Producer id
+ * @apiSuccess {String} producer Producer name
+ * @apiSuccess {Number} coffeeId Coffee id
+ * @apiSuccess {String} coffee Coffee name
+ * @apiSuccessExample {json} Success
+ *    HTTP/1.1 200 OK
+ *    [ {
+        "producerId": 1
+        "producer": "Blue Bottle Coffee",
+        "coffeeId": 4,
+        "coffee": "Colombia Popayán Fall Harvest",
+    } ]
+ * @apiErrorExample {json} Producer's Coffee list not found
+ *    HTTP/1.1 404 Not Found
+ * @apiErrorExample {json} List error
+ *    HTTP/1.1 500 Internal Server Error
+ */
+router.get('/producers/:id', (req, res) => {
+  const id = req.params.id;
+  producers.getProducerById(id)
+    .then((producer) => {
+      if (producer.length === 0) {
+        res.sendStatus(404);
+        return;
+      }
+      res.send(producer);
+    })
+    .catch((err) => {
+      res.sendStatus(500);
+    });
+})
 
 module.exports = router;
