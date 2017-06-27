@@ -14,15 +14,15 @@ class Country {
     });
   }
 
-  getCountriesById(id) {
-    return knex('countries')
-      .where('id', id)
-      .first()
-      .then((result) => camelizeKeys(result))
-      .catch((err) => {
-        console.error(err);
-      })
-  }
+  // getCountriesById(id) {
+  //   return knex('countries')
+  //     .where('id', id)
+  //     .first()
+  //     .then((result) => camelizeKeys(result))
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
+  // }
 
   getCoffeeByCountryId(id) {
     return knex('coffee')
@@ -32,7 +32,6 @@ class Country {
       .innerJoin('countries', 'regions.country_id', 'countries.id')
       .where('countries.id', id)
       .then((result) => {
-        console.log(result);
         return camelizeKeys(result)
       })
       .catch((err) => {
