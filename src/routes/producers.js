@@ -16,7 +16,7 @@ let producers = new Producer;
  * @apiSuccess {Number} producers.id Producer id
  * @apiSuccess {String} producers.name Producer name
  * @apiSuccess {Date} producers.created_at Created date
- * @apiSuccess {Date} producers.updated_at Update date
+ * @apiSuccess {Date} producers.updated_at Updated date
  * @apiSuccessExample {json} Success
  *    HTTP/1.1 200 OK
  *    [ {

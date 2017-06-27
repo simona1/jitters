@@ -19,7 +19,7 @@ let countries = new Country();
  * @apiSuccess {String} countries.lat Country latitude
  * @apiSuccess {String} countries.long Country longitude
  * @apiSuccess {Date} countries.created_at Created date
- * @apiSuccess {Date} countries.updated_at Update date
+ * @apiSuccess {Date} countries.updated_at Updated date
  * @apiSuccessExample {json} Success
  *    HTTP/1.1 200 OK
  *    [ {
@@ -59,7 +59,7 @@ router.get('/countries', (req, res) => {
  * @apiSuccess {String} regions.lat Region latitude
  * @apiSuccess {String} regions.long Region longitude
  * @apiSuccess {Date} regions.created_at Created date
- * @apiSuccess {Date} regions.updated_at Update date
+ * @apiSuccess {Date} regions.updated_at Updated date
  * @apiSuccessExample {json} Success
  *    HTTP/1.1 200 OK
  *    [{
