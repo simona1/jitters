@@ -1,8 +1,15 @@
 'use strict';
 
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
+const bodyParser = require('body-parser');
 const express = require('express');
 
 const app = express();
+
+app.use(bodyParser.json());
 
 app.use(express.static('public'));
 
