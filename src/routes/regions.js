@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const gmsApiKey = process.env.GMS_API_KEY;
 const humps = require('humps');
 
 const Region = require('../models/Region.js');
@@ -134,7 +135,7 @@ router.post('/regions', (req, res) => {
     return;
   }
 
-fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${region.name}`)
+fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${region.name}&key=${gmsApiKey}`)
         .then(response => {
          return response.json()
      })
@@ -198,7 +199,7 @@ router.post('/regions/:id', (req, res) => {
     return;
   }
 
-fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${region.name}`)
+fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${region.name}&key=${gmsApiKey}`)
         .then(response => {
          return response.json()
      })
