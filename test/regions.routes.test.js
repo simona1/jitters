@@ -86,7 +86,7 @@ test('POST /regions', (done) => {
        delete res.body.updatedAt;
      })
      .expect(200, {
-       id: 2,
+       id: 5,
        countryId: 1,
        name: 'kona',
        lat: 19.639994,
