@@ -2,12 +2,13 @@
 
 process.env.NODE_ENV = 'test';
 
+const { assert } = require('chai');
 const { suite, test } = require('mocha');
 const request = require('supertest');
 const bcrypt = require('bcrypt');
 const knex = require('../knex');
 const server = require('../index');
-const { addDatabaseHooks } = require('./utils')
+const { addDatabaseHooks } = require('./utils');
 
 suite('users routes', addDatabaseHooks(() => {
   test('POST /users', (done) => {
@@ -20,20 +21,21 @@ suite('users routes', addDatabaseHooks(() => {
       .send({
         firstName: 'Joe',
         lastName: 'Trader',
-        email: 'joe.trader@example.com',
+        username: 'traderjoe',
+        email: 'joetrader@example.com',
         password
       })
       .expect((res) => {
-        delete res.body.access;
         delete res.body.createdAt;
         delete res.body.updatedAt;
+        delete res.body.access;
       })
       .expect(200, {
         id: 3,
         firstName: 'Joe',
         lastName: 'Trader',
-        userName: 'traderjoe',
-        email: 'joe.trader@example.com'
+        username: 'traderjoe',
+        email: 'joetrader@example.com',
       })
       .expect('Content-Type', /json/)
       .end((httpErr, _res) => {
@@ -48,16 +50,16 @@ suite('users routes', addDatabaseHooks(() => {
             const hashedPassword = user.hashed_password;
 
             delete user.hashed_password;
-            delete user.access;
             delete user.created_at;
             delete user.updated_at;
+            delete user.access;
 
             assert.deepEqual(user, {
               id: 3,
               first_name: 'Joe',
               last_name: 'Trader',
               username: 'traderjoe',
-              email: 'joe.trader@example.com'
+              email: 'joetrader@example.com'
             });
 
             // eslint-disable-next-line no-sync

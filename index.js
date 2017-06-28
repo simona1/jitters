@@ -4,6 +4,7 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 
+const bodyParser = require('body-parser');
 const express = require('express');
 const path = require('path');
 
@@ -11,6 +12,7 @@ const app = express();
 
 app.disable('x-powered-by');
 
+app.use(bodyParser.json());
 app.use(express.static('public'));
 
 const countries = require('./src/routes/countries');
