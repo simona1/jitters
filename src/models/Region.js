@@ -42,6 +42,22 @@ class Region {
       });
   }
 
+  updateRegion(region) {
+    return knex('regions')
+      .where('id', region.id)
+      .update({
+        countryId: region.countryId,
+        name: region.name,
+        lat: region.lat,
+        long: region.long}, '*')
+      .then((result) => {
+        return camelizeKeys(result)
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
 
 
 }
