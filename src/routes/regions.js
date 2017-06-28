@@ -155,4 +155,39 @@ fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${region.name}`
     })
 });
 
+router.post('/regions/:id', (req, res) => {
+  let region = req.body;
+  region.id = req.params.id;
+
+  if (!region.name) {
+    res.set('Content-Type','text/plain');
+    res.status(400).send('Region must have a name');
+    return;
+  }
+
+fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${region.name}`)
+        .then(response => {
+         return response.json()
+     })
+      .then(data => {
+        if (data.results.length !== 1) {
+          res.sendStatus(404);
+          return
+          };
+          region.lat = data.results[0].geometry.location.lat;
+          region.long = data.results[0].geometry.location.lng;
+          regions.updateRegion(region)
+          .then(region => {
+            res.setHeader('Content-Type', 'application/json')
+            return res.send(region[0]);
+          })
+          .catch(err => {
+            res.sendStatus(500);
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    })
+});
+
 module.exports = router;

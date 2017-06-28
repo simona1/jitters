@@ -101,6 +101,28 @@ test('POST /regions', (done) => {
        })
        .expect(404, done);
    });
+
+   test('POST /regions/:id', (done) => {
+      request(server)
+        .post('/regions/1')
+        .set('Accept', 'application/json')
+        .send({
+          country_id: 2,
+          name: 'kauai',
+        })
+        .expect('Content-Type', /json/)
+        .expect((res) => {
+          delete res.body.createdAt;
+          delete res.body.updatedAt;
+        })
+        .expect(200, {
+          id: 1,
+          countryId: 2,
+          name: 'kauai',
+          lat: 22.0964396,
+          long: -159.5261238,
+        }, done);
+    });
 /* eslint-enable max-len */
 
 }));
