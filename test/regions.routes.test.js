@@ -72,6 +72,14 @@ suite('regions routes', addDatabaseHooks(() => {
      }], done);
 });
 
+test('GET /regions/:id with non number id', (done) => {
+request(server)
+ .get('/regions/a')
+ .set('Accept', 'application/json')
+ .expect('Content-Type', 'text/plain; charset=utf-8')
+ .expect(404, {}, done);
+});
+
 test('POST /regions', (done) => {
    request(server)
      .post('/regions')
@@ -94,37 +102,95 @@ test('POST /regions', (done) => {
      }, done);
  });
 
- test('POST /regions 404 error with too many location results', (done) => {
+ test('POST /regions with user inputted coordinates', (done) => {
     request(server)
       .post('/regions')
       .set('Accept', 'application/json')
       .send({
-        country_id: 3,
-        name: 'columbia',
+        country_id: 1,
+        name: 'my house',
+        lat: -32.920672,
+        long: 92.320881
       })
-      .expect('Content-Type', 'text/plain; charset=utf-8')
+      .expect('Content-Type', /json/)
       .expect((res) => {
         delete res.body.createdAt;
         delete res.body.updatedAt;
       })
-      .expect(404, done);
+      .expect(200, {
+        id: 5,
+        countryId: 1,
+        name: 'my house',
+        lat: -32.920672,
+        long: 92.320881,
+      }, done);
   });
 
-  test('POST /regions 404 error with unknown location', (done) => {
+ test('POST /regions with too many location results', (done) => {
+    request(server)
+      .post('/regions')
+      .set('Accept', 'application/json')
+      .send({
+        country_id: 2,
+        name: 'columbia',
+      })
+      .expect('Content-Type', /json/)
+      .expect((res) => {
+        delete res.body.createdAt;
+        delete res.body.updatedAt;
+      })
+      .expect(200, {
+        id: 5,
+        countryId: 2,
+        name: 'columbia',
+        lat: null,
+        long: null
+      } ,done);
+  });
+
+  test('POST /regions with unknown location', (done) => {
      request(server)
        .post('/regions')
        .set('Accept', 'application/json')
        .send({
-         country_id: 3,
+         country_id: 2,
          name: 'fsafdsf',
        })
-       .expect('Content-Type', 'text/plain; charset=utf-8')
+       .expect('Content-Type', /json/)
        .expect((res) => {
          delete res.body.createdAt;
          delete res.body.updatedAt;
        })
-       .expect(404, done);
+       .expect(200, {
+         id: 5,
+         countryId: 2,
+         name: 'fsafdsf',
+         lat: null,
+         long: null
+       } ,done);
    });
+
+   test('POST /regions/:id', (done) => {
+      request(server)
+        .post('/regions/1')
+        .set('Accept', 'application/json')
+        .send({
+          country_id: 2,
+          name: 'kauai',
+        })
+        .expect('Content-Type', /json/)
+        .expect((res) => {
+          delete res.body.createdAt;
+          delete res.body.updatedAt;
+        })
+        .expect(200, {
+          id: 1,
+          countryId: 2,
+          name: 'kauai',
+          lat: 22.0964396,
+          long: -159.5261238,
+        }, done);
+    });
 /* eslint-enable max-len */
 
 }));

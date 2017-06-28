@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const gmsApiKey = process.env.GMS_API_KEY;
 const humps = require('humps');
 
 const Region = require('../models/Region.js');
@@ -81,8 +82,12 @@ router.get('/regions', (req, res) => {
  *    HTTP/1.1 500 Internal Server Error
  */
 router.get('/regions/:id', (req, res) => {
-
   const id = req.params.id;
+
+  if (isNaN(id)) {
+  return res.sendStatus(404);
+}
+
   regions.getCoffeeByRegionId(id)
     .then(region => {
       res.send(region);
@@ -130,18 +135,84 @@ router.post('/regions', (req, res) => {
     return;
   }
 
-fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${region.name}`)
+fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${region.name}&key=${gmsApiKey}`)
         .then(response => {
          return response.json()
      })
       .then(data => {
-        if (data.results.length !== 1) {
-          res.sendStatus(404);
-          return
-          };
-          region.lat = data.results[0].geometry.location.lat;
-          region.long = data.results[0].geometry.location.lng;
+        if (data.results.length !== 1 && (!region.lat || !region.long)) {
+          region.lat = null;
+          region.long = null;
+        };
+          if ((!region.lat || !region.long) && (region.lat !== null || region.long !== null)) {
+            region.lat = data.results[0].geometry.location.lat;
+            region.long = data.results[0].geometry.location.lng;
+          }
           regions.addRegion(region)
+          .then(region => {
+            res.setHeader('Content-Type', 'application/json')
+            return res.send(region[0]);
+          })
+          .catch(err => {
+            res.sendStatus(500);
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    })
+});
+
+/**
+ * @api {post} /regions/:id Update a region
+ * @apiGroup Regions
+ * @apiParam {String} country_id Region country_id
+ * @apiParam {String} name Region name
+ * @apiParamExample {json} Input
+ *    {
+ *      "country_id": "2",
+        "name": "kauai"
+ *    }
+ * @apiSuccess {Number} id Region id
+ * @apiParam {String} country_id Region country_id
+ * @apiParam {String} name Region name
+ * @apiSuccess {String} regions.lat Region latitude
+ * @apiSuccess {String} regions.long Region longitude
+ * @apiSuccessExample {json} Success
+ *    HTTP/1.1 200 OK
+ *    {
+ *      "id": 2,
+ *      "countryId": 2,
+ *      "name": "auai",
+ *      "lat": "22.0964396",
+ *      "long": "-159.5261238",
+ *    }
+ * @apiErrorExample {json} Add error
+ *    HTTP/1.1 500 Internal Server Error
+ */
+router.post('/regions/:id', (req, res) => {
+  let region = req.body;
+  region.id = req.params.id;
+
+  if (!region.name) {
+    res.set('Content-Type','text/plain');
+    res.status(400).send('Region must have a name');
+    return;
+  }
+
+fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${region.name}&key=${gmsApiKey}`)
+        .then(response => {
+         return response.json()
+     })
+      .then(data => {
+        if (data.results.length !== 1 && (!region.lat || !region.long)) {
+          region.lat = null;
+          region.long = null;
+        };
+          if ((!region.lat || !region.long) && (region.lat !== null || region.long !== null)) {
+            region.lat = data.results[0].geometry.location.lat;
+            region.long = data.results[0].geometry.location.lng;
+          }
+          regions.updateRegion(region)
           .then(region => {
             res.setHeader('Content-Type', 'application/json')
             return res.send(region[0]);
