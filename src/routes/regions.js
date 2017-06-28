@@ -135,6 +135,10 @@ fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${region.name}`
          return response.json()
      })
       .then(data => {
+        if (data.results.length !== 1) {
+          res.sendStatus(404);
+          return
+          };
           region.lat = data.results[0].geometry.location.lat;
           region.long = data.results[0].geometry.location.lng;
           regions.addRegion(region)

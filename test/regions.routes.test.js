@@ -69,6 +69,38 @@ test('POST /regions', (done) => {
        long: -155.9969261,
      }, done);
  });
+
+ test('POST /regions 404 error with too many location results', (done) => {
+    request(server)
+      .post('/regions')
+      .set('Accept', 'application/json')
+      .send({
+        country_id: 3,
+        name: 'columbia',
+      })
+      .expect('Content-Type', 'text/plain; charset=utf-8')
+      .expect((res) => {
+        delete res.body.createdAt;
+        delete res.body.updatedAt;
+      })
+      .expect(404, done);
+  });
+
+  test('POST /regions 404 error with unknown location', (done) => {
+     request(server)
+       .post('/regions')
+       .set('Accept', 'application/json')
+       .send({
+         country_id: 3,
+         name: 'fsafdsf',
+       })
+       .expect('Content-Type', 'text/plain; charset=utf-8')
+       .expect((res) => {
+         delete res.body.createdAt;
+         delete res.body.updatedAt;
+       })
+       .expect(404, done);
+   });
 /* eslint-enable max-len */
 
 }));
