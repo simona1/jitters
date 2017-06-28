@@ -93,9 +93,43 @@ router.get('/coffee/:id', (req, res) => {
     });
 });
 
+/**
+ * @api {post} /coffee Add a new coffee
+ * @apiGroup Coffee
+ * @apiParam {String} producer_id Coffee producer_id
+ * @apiParam {String} name Coffee name
+ * @apiParam {String} flavor_profile Coffee flavor_profile
+ * @apiParam {String} varieties Coffee varieties
+ * @apiParam {String} description Coffee description
+ * @apiParamExample {json} Input
+ *    {
+ *      "producer_id": "2",
+        "name": "Ethiopia Bulga",
+        "flavor_profile": "Cotton Candy, Strawberry, Sugar, Tangerine",
+        "varieties": "Heirloom",
+        "description": "delicious"
+ *    }
+ * @apiSuccess {Number} id Coffee id
+ * @apiParam {String} producer_id Coffee producer_id
+ * @apiParam {String} name Coffee name
+ * @apiParam {String} flavor_profile Coffee flavor_profile
+ * @apiParam {String} varieties Coffee varieties
+ * @apiParam {String} description Coffee description
+ * @apiSuccessExample {json} Success
+ *    HTTP/1.1 200 OK
+ *    {
+ *      "id": 2,
+ *      "producer_id": "2",
+        "name": "Ethiopia Bulga",
+        "flavor_profile": "Cotton Candy, Strawberry, Sugar, Tangerine",
+        "varieties": "Heirloom",
+        "description": "delicious"
+ *    }
+ * @apiErrorExample {json} Add error
+ *    HTTP/1.1 500 Internal Server Error
+ */
 router.post('/coffee', (req, res) => {
   const coffee = req.body;
-  // const regions = req.body.regions;
 
   if (!coffee.name) {
     return res.status(400)
@@ -103,12 +137,6 @@ router.post('/coffee', (req, res) => {
       .send('Coffee name required');
   }
 
-  // if (!regions) {
-  //   return res
-  //     .status(400)
-  //     .set('Content-Type', 'text/plain')
-  //     .send('At least one region is required');
-  // }
   coffeeList.addCoffee(coffee)
   .then(coffee => {
     res.setHeader('Content-Type', 'application/json')
@@ -119,6 +147,42 @@ router.post('/coffee', (req, res) => {
     });
 });
 
+
+/**
+ * @api {post} /coffee/:id Update a coffee
+ * @apiGroup Coffee
+ * @apiParam {String} producer_id Coffee producer_id
+ * @apiParam {String} name Coffee name
+ * @apiParam {String} flavor_profile Coffee flavor_profile
+ * @apiParam {String} varieties Coffee varieties
+ * @apiParam {String} description Coffee description
+ * @apiParamExample {json} Input
+ *    {
+ *      "producer_id": "2",
+        "name": "Ethiopia Bulga",
+        "flavor_profile": "Cotton Candy, Strawberry, Sugar, Tangerine",
+        "varieties": "Heirloom",
+        "description": "lorem ipsum"
+ *    }
+ * @apiSuccess {Number} id Coffee id
+ * @apiParam {String} producer_id Coffee producer_id
+ * @apiParam {String} name Coffee name
+ * @apiParam {String} flavor_profile Coffee flavor_profile
+ * @apiParam {String} varieties Coffee varieties
+ * @apiParam {String} description Coffee description
+ * @apiSuccessExample {json} Success
+ *    HTTP/1.1 200 OK
+ *    {
+ *      "id": 2,
+ *      "producer_id": "2",
+        "name": "Ethiopia Bulga",
+        "flavor_profile": "Cotton Candy, Strawberry, Sugar, Tangerine",
+        "varieties": "Heirloom",
+        "description": "delicious"
+ *    }
+ * @apiErrorExample {json} Add error
+ *    HTTP/1.1 500 Internal Server Error
+ */
 router.post('/coffee/:id', (req, res) => {
   const coffee = req.body;
   coffee.id = req.params.id;
