@@ -16,6 +16,33 @@ suite('regions routes', addDatabaseHooks(() => {
       .expect('Content-Type', /json/)
       .expect(200, [
         {
+          id: 3,
+          countryId: 3,
+          name: 'Bruselas-Huila',
+          lat: 1.776552,
+          long: -76.176076,
+          createdAt: '2017-06-23T14:56:16.000Z',
+          updatedAt: '2017-06-23T14:56:16.000Z'
+        },
+        {
+          id: 2,
+          countryId: 2,
+          name: 'Oromia',
+          lat: 7.546038,
+          long: 40.6346851,
+          createdAt: '2017-06-23T14:56:16.000Z',
+          updatedAt: '2017-06-23T14:56:16.000Z'
+        },
+        {
+          id: 4,
+          countryId: 3,
+          name: 'Popayán',
+          lat: 2.4448143,
+          long: -76.6147395,
+          createdAt: '2017-06-23T14:56:16.000Z',
+          updatedAt: '2017-06-23T14:56:16.000Z'
+        },
+        {
           id: 1,
           name: 'Yirgacheffe',
           lat: 6.1620450,
@@ -23,29 +50,26 @@ suite('regions routes', addDatabaseHooks(() => {
           countryId: 2,
           createdAt: '2017-06-23T14:56:16.000Z',
           updatedAt: '2017-06-23T14:56:16.000Z'
-        },
-    ], done);
-
-
+        }], done);
   })
 
   test('GET /regions/:id', (done) => {
- request(server)
-   .get('/regions/1')
-   .set('Accept', 'application/json')
-   .expect('Content-Type', /json/)
-   .expect(200, [{
-     "countryName": "Ethiopia",
-     "description": "Lorem ipsum",
-     "flavorProfile": "Fruity, radiant, creamy",
-     "id": 1,
-     "lat": 6.1620450,
-     "long": 38.2058150,
-     "name": "Three Africas",
-     "producerId": 1,
-     "regionName": "Yirgacheffe",
-     "varieties": "Heirloom"
-   }], done);
+    request(server)
+     .get('/regions/1')
+     .set('Accept', 'application/json')
+     .expect('Content-Type', /json/)
+     .expect(200, [{
+       countryName: 'Ethiopia',
+       description: 'Lorem ipsum',
+       flavorProfile: 'Fruity, radiant, creamy',
+       id: 1,
+       lat: 6.1620450,
+       long: 38.2058150,
+       name: 'Three Africas',
+       producerId: 1,
+       regionName: 'Yirgacheffe',
+       varieties: 'Heirloom'
+     }], done);
 });
 
 test('POST /regions', (done) => {

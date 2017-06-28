@@ -11,6 +11,13 @@ exports.seed = function(knex, Promise) {
           country_id: 1,
           created_at: new Date('2017-06-23 14:56:16 UTC'),
           updated_at: new Date('2017-06-23 14:56:16 UTC')
+        },
+        {
+          id: 2,
+          name: 'Four Barrel Coffee',
+          country_id: 1,
+          created_at: new Date('2017-06-23 14:56:16 UTC'),
+          updated_at: new Date('2017-06-23 14:56:16 UTC')
         }
       ])
       .then( () => {
