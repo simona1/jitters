@@ -76,4 +76,89 @@ router.get('/producers/:id', (req, res) => {
     });
 })
 
+/**
+ * @api {post} /producers/ Add a producer
+ * @apiVersion 1.0.0
+ * @apiGroup Producers
+ * @apiSuccess {Object} producer Producer added
+ * @apiSuccess {Number} producers.id Producer id
+ * @apiSuccess {String} producer.name Producer name
+ * @apiSuccess {Number} country_id Country id
+ * @apiSuccessExample {json} Success
+ *    HTTP/1.1 200 OK
+ *    {
+        "id": 1
+        "name": "Blue Bottle Coffee",
+        "country_id": 1,
+      }
+ * @apiErrorExample {json} List error
+ *    HTTP/1.1 500 Internal Server Error
+ */
+router.post('/producers', (req, res) => {
+  const producerToAdd = req.body;
+
+  if (!producerToAdd.name) {
+    return res
+      .status(400)
+      .set('Content-Type', 'text/plain')
+      .send('Name required');
+  }
+
+  if (!producerToAdd.country_id) {
+    return res
+      .status(400)
+      .set('Content-Type', 'text/plain')
+      .send('Counntry ID required');
+  }
+
+  producers.addProducer(producerToAdd)
+    .then((result) => {
+      res.json(result);
+    })
+    .catch(err => {
+      res.sendStatus(500);
+    });
+
+});
+
+/**
+ * @api {post} /producers/id Update a producer
+ * @apiVersion 1.0.0
+ * @apiGroup Producers
+ * @apiSuccess {Object} producer Producer updated
+ * @apiSuccess {Number} producers.id Producer id
+ * @apiSuccess {String} producer.name Producer name
+ * @apiSuccess {Number} country_id Country id
+ * @apiSuccessExample {json} Success
+ *    HTTP/1.1 200 OK
+ *    {
+        "id": 1
+        "name": "Blue Bottle Coffee",
+        "country_id": 1,
+      }
+ * @apiErrorExample {json} Producer not found
+ *    HTTP/1.1 404 Not Found
+ * @apiErrorExample {json} List error
+ *    HTTP/1.1 500 Internal Server Error
+ */
+router.post('/producers/:id', (req, res) => {
+  const id = req.params.id;
+  const producerToUpdate = req.body;
+
+  if (isNaN(id) || id <= 0) {
+    return res.sendStatus(404);
+  }
+
+  producers.updateProducer(id, producerToUpdate)
+    .then((result) => {
+      if (!result) {
+        return res.sendStatus(404);
+      }
+      res.json(result);
+    })
+    .catch((err) => {
+      res.sendStatus(500);
+    })
+})
+
 module.exports = router;
