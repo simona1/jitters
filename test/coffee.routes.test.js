@@ -131,4 +131,24 @@ suite('coffee routes', addDatabaseHooks(() => {
       /* eslint-enable max-len */
   });
 
+  test('DELETE /coffee/:id', (done) => {
+    request(server)
+      .del('/coffee/1')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200, [{
+        id: 1,
+        name: 'Three Africas',
+        producerId: 1,
+        flavorProfile: 'Fruity, radiant, creamy',
+        varieties: 'Heirloom',
+        description: 'Lorem ipsum',
+        createdAt: '2017-06-23T14:56:16.000Z',
+        updatedAt: '2017-06-23T14:56:16.000Z'
+      }], done);
+
+  });
+  /* eslint-enable max-len */
+
+
 }));

@@ -203,4 +203,23 @@ router.post('/coffee/:id', (req, res) => {
     });
 });
 
+router.delete('/coffee/:id', (req, res) => {
+  const id = req.params.id;
+
+  if (isNaN(id)) {
+    return res.sendStatus(404);
+  }
+
+  coffeeList.deleteCoffee(id)
+  .then(deletedCoffee => {
+    if (!deletedCoffee[0]) {
+        res.sendStatus(404);
+      }
+    res.send(deletedCoffee)
+  })
+  .catch(err => {
+      res.status(500).send(err);
+  });
+})
+
 module.exports = router;

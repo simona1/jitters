@@ -52,6 +52,19 @@ class Coffee {
         console.error(err);
     });
   }
+
+  deleteCoffee(id) {
+    return knex('coffee')
+      .del()
+      .where('id', id)
+      .returning('*')
+      .then((result) => {
+        return camelizeKeys(result)
+      })
+      .catch((err) => {
+        console.error(err);
+    });
+  }
 }
 
 module.exports = Coffee;
