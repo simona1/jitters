@@ -75,7 +75,60 @@ suite('coffee routes', addDatabaseHooks(() => {
           updatedAt: '2017-06-23T14:56:16.000Z',
           varieties: 'Heirloom'
         }, done);
-    /* eslint-enable max-len */
+  });
+
+  test('POST /coffee', (done) => {
+    request(server)
+      .post('/coffee')
+      .set('Accept', 'application/json')
+      .send({
+        producer_id: 2,
+        name: 'The jittery beatle',
+        flavor_profile: 'caffeinated, salty, bitter',
+        varieties: '',
+        description: 'Don\'t drink this.'
+      })
+    .expect('Content-Type', /json/)
+    .expect((res) => {
+      delete res.body.createdAt;
+      delete res.body.updatedAt;
+    })
+    .expect(200, {
+      id: 5,
+      producerId: 2,
+      name: 'The jittery beatle',
+      flavorProfile: 'caffeinated, salty, bitter',
+      varieties: '',
+      description: 'Don\'t drink this.'
+    }, done);
+      /* eslint-enable max-len */
+  });
+
+  test('POST /coffee/:id', (done) => {
+    request(server)
+      .post('/coffee/2')
+      .set('Accept', 'application/json')
+      .send({
+        producer_id: 2,
+        name: 'Ethiopia Bulga',
+        flavor_profile: 'Cotton Candy, Strawberry, Sugar, Tangerine',
+        varieties: 'Heirloom',
+        description: 'delicious',
+      })
+    .expect('Content-Type', /json/)
+    .expect((res) => {
+      delete res.body.createdAt;
+      delete res.body.updatedAt;
+    })
+    .expect(200, {
+      id: 2,
+      producerId: 2,
+      name: 'Ethiopia Bulga',
+      flavorProfile: 'Cotton Candy, Strawberry, Sugar, Tangerine',
+      varieties: 'Heirloom',
+      description: 'delicious',
+    }, done);
+      /* eslint-enable max-len */
   });
 
 }));

@@ -93,4 +93,50 @@ router.get('/coffee/:id', (req, res) => {
     });
 });
 
+router.post('/coffee', (req, res) => {
+  const coffee = req.body;
+  // const regions = req.body.regions;
+
+  if (!coffee.name) {
+    return res.status(400)
+      .set('Content-Type', 'text/plain')
+      .send('Coffee name required');
+  }
+
+  // if (!regions) {
+  //   return res
+  //     .status(400)
+  //     .set('Content-Type', 'text/plain')
+  //     .send('At least one region is required');
+  // }
+  coffeeList.addCoffee(coffee)
+  .then(coffee => {
+    res.setHeader('Content-Type', 'application/json')
+    return res.send(coffee[0]);
+  })
+    .catch(err => {
+      res.sendStatus(500);
+    });
+});
+
+router.post('/coffee/:id', (req, res) => {
+  const coffee = req.body;
+  coffee.id = req.params.id;
+
+  if (!coffee.name) {
+    return res.status(400)
+      .set('Content-Type', 'text/plain')
+      .send('Coffee name required');
+  }
+
+  coffeeList.updateCoffee(coffee)
+  .then(coffee => {
+    res.setHeader('Content-Type', 'application/json')
+    return res.send(coffee[0]);
+  })
+    .catch(err => {
+      res.sendStatus(500);
+    });
+});
+
 module.exports = router;

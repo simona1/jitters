@@ -46,7 +46,7 @@ exports.seed = function(knex, Promise) {
           updated_at: new Date('2017-06-23 14:56:16 UTC')
         }])
         .then(() => {
-          return knex.raw("SELECT setval('regions_id_seq', (SELECT MAX(id) FROM regions));");
+          return knex.raw("SELECT setval('coffee_id_seq', (SELECT MAX(id) FROM coffee));");
         });
     });
 };

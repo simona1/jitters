@@ -140,7 +140,7 @@ fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${region.name}&
          return response.json()
      })
       .then(data => {
-        if (data.results.length !== 1 && (!region.lat || !region.long)) {
+        if ((data.results.length !== 1) && (!region.lat || !region.long)) {
           region.lat = null;
           region.long = null;
         };
