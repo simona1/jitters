@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "mocha"
+    "test": "mocha",
+    "coverage": "istanbul cover _mocha -- -R spec"
   },
   "repository": {
     "type": "git",
@@ -23,11 +24,15 @@
   },
   "homepage": "https://github.com/Jitters-API/jitters#readme",
   "dependencies": {
+    "apidoc": "^0.17.6",
     "bcrypt": "^1.0.2",
     "body-parser": "^1.17.2",
+    "dotenv": "^4.0.0",
     "express": "^4.15.3",
+    "humps": "^2.0.1",
     "jsonwebtoken": "^7.4.1",
     "knex": "^0.13.0",
+    "node-fetch": "^1.7.1",
     "pg": "^6.4.0"
   },
   "devDependencies": {
