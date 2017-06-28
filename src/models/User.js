@@ -49,7 +49,7 @@ class User {
 
   getUserByUsername(username) {
     return knex('users')
-      .select('id', 'username', 'first_name', 'last_name', 'email')
+      .select('id', 'username', 'first_name', 'last_name', 'email', 'hashed_password')
       .where('username', username)
       .first()
       .then((result) => {

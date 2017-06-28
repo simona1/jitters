@@ -20,12 +20,15 @@ const regions = require('./src/routes/regions');
 const producers = require('./src/routes/producers');
 const coffee = require('./src/routes/coffee');
 const users = require('./src/routes/users');
+const login = require('./src/routes/login');
+
 
 app.use(countries);
 app.use(regions);
 app.use(producers);
 app.use(coffee);
 app.use(users);
+app.use(login);
 
 app.use((req, res) => {
   res.sendStatus(404);
