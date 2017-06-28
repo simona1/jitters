@@ -1,7 +1,9 @@
-'use strict';
+// 'use strict';
 
 const knex = require('../../knex.js');
 const { decamelizeKeys, camelizeKeys } = require('humps');
+const express = require('express');
+
 
 class Region {
 
@@ -40,20 +42,7 @@ class Region {
       });
   }
 
-  createGoogleMapsUrl() {
-    return `https://maps.googleapis.com/maps/api/geocode/json?address=${this.name}`
-  }
 
-  getGpsCoordinates(region) {
-    return fetch(createGoogleMapsUrl(region))
-   .then(response => {
-       return response.json()
-   })
-   .then(data => {
-       console.log(data)
-     return data.results[0].geometry.location
-  })
- }
 
 }
 
