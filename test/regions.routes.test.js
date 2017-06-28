@@ -102,36 +102,48 @@ test('POST /regions', (done) => {
       }, done);
   });
 
- test('POST /regions 404 error with too many location results', (done) => {
+ test('POST /regions with too many location results', (done) => {
     request(server)
       .post('/regions')
       .set('Accept', 'application/json')
       .send({
-        country_id: 3,
+        country_id: 2,
         name: 'columbia',
       })
-      .expect('Content-Type', 'text/plain; charset=utf-8')
+      .expect('Content-Type', /json/)
       .expect((res) => {
         delete res.body.createdAt;
         delete res.body.updatedAt;
       })
-      .expect(404, done);
+      .expect(200, {
+        id: 2,
+        countryId: 2,
+        name: 'columbia',
+        lat: null,
+        long: null
+      } ,done);
   });
 
-  test('POST /regions 404 error with unknown location', (done) => {
+  test('POST /regions with unknown location', (done) => {
      request(server)
        .post('/regions')
        .set('Accept', 'application/json')
        .send({
-         country_id: 3,
+         country_id: 2,
          name: 'fsafdsf',
        })
-       .expect('Content-Type', 'text/plain; charset=utf-8')
+       .expect('Content-Type', /json/)
        .expect((res) => {
          delete res.body.createdAt;
          delete res.body.updatedAt;
        })
-       .expect(404, done);
+       .expect(200, {
+         id: 2,
+         countryId: 2,
+         name: 'fsafdsf',
+         lat: null,
+         long: null
+       } ,done);
    });
 
    test('POST /regions/:id', (done) => {
