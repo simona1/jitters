@@ -12,7 +12,7 @@ class Region {
       .orderBy('name')
       .then((result) => camelizeKeys(result))
       .catch((err) => {
-        console.error(err)
+        console.error(err);
     });
   }
 
