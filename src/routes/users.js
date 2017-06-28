@@ -127,7 +127,7 @@ const REQUIRED_FIELDS = {
  * @apiErrorExample {json} List error
  *    HTTP/1.1 500 Internal Server Error
  */
-router.post('/users', async (req, res) => {
+router.post('/users', (req, res) => {
   const userToAdd = {};
   const errors = [];
   Object.keys(REQUIRED_FIELDS).forEach(field => {
@@ -151,24 +151,25 @@ router.post('/users', async (req, res) => {
     return;
   }
 
-  try {
-    const emailExists = await users.isAlreadyRegistered(userToAdd.email);
-    const hashedPassword = await bcrypt.hash(userToAdd.password, saltRounds)
+  bcrypt.hash(userToAdd.password, saltRounds).then(hashedPassword => {
     delete userToAdd.password;
     userToAdd.hashedPassword = hashedPassword;
-    const result = await users.addUser(userToAdd);
-
-  } catch (err) {
-    console.error(err.stack);
+    return users.addUser(userToAdd)
+      .then(result => {
+        res.status(200).send(camelizeKeys(result));
+      });
+  })
+  .catch(err => {
     res.sendStatus(500);
-    return;
-  }
-  res.status(200).send(camelizeKeys(result));
+  });
 });
 
-router.post('/users/:id', (req, res) => {
-  const userToUpdate = {};
-  const errors = [];
+
+
+
+// router.post('/users/:id', (req, res) => {
+//   const userToUpdate = {};
+//   const errors = [];
 
   // Object.keys(REQUIRED_FIELDS).forEach(field => {
   //   if (!req.body[field]) {
@@ -184,24 +185,24 @@ router.post('/users/:id', (req, res) => {
   //   return;
   // }
 
-  if (userToAdd.password.length < 8) {
-    res.status(400)
-      .set('Content-Type', 'text/plain')
-      .send('Password must be at least 8 characters long');
-    return;
-  }
-
-  bcrypt.hash(userToAdd.password, saltRounds).then(hashedPassword => {
-    delete userToAdd.password;
-    userToAdd.hashedPassword = hashedPassword;
-    return users.addUser(userToAdd)
-      .then(result => {
-        res.status(200).send(camelizeKeys(result));
-      });
-  })
-  .catch(err => {
-    res.sendStatus(500);
-  });
-});
+//   if (userToAdd.password.length < 8) {
+//     res.status(400)
+//       .set('Content-Type', 'text/plain')
+//       .send('Password must be at least 8 characters long');
+//     return;
+//   }
+//
+//   bcrypt.hash(userToAdd.password, saltRounds).then(hashedPassword => {
+//     delete userToAdd.password;
+//     userToAdd.hashedPassword = hashedPassword;
+//     return users.addUser(userToAdd)
+//       .then(result => {
+//         res.status(200).send(camelizeKeys(result));
+//       });
+//   })
+//   .catch(err => {
+//     res.sendStatus(500);
+//   });
+// });
 
 module.exports = router;

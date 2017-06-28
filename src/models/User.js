@@ -15,7 +15,7 @@ class User {
       .then((result) => camelizeKeys(result))
       .catch((err) => {
         console.error(err);
-    });
+      });
   }
 
   getUserById(id) {
@@ -66,26 +66,30 @@ class User {
       .insert(decamelizeKeys(userToAdd), ['first_name', 'last_name', 'username', 'email'])
       .returning([...columns, 'id'])
       .then((result) => {
-        return camelizeKeys(result[0]);
+
+      return camelizeKeys(result[0]);
+      })
+      .catch((err) => {
+        console.error(err.stack);
       });
   }
 
-  updateUser(id, userToUpdate) {
-    userToUpdate = decamelizeKeys(userToUpdate);
-    return knex('users')
-      .where({ id })
-      .first()
-      .then((result) => {
-        if (!result) {
-          return;
-        }
-        return knex('users')
-          .where('id', id)
-          .update(userToUpdate, ['id', 'first_name', 'last_name', 'username', 'email'])
-          .then((updatedUser) =>
-          camelizeKeys(updatedUser[0]));
-      });
-  }
+  // updateUser(id, userToUpdate) {
+  //   userToUpdate = decamelizeKeys(userToUpdate);
+  //   return knex('users')
+  //     .where({ id })
+  //     .first()
+  //     .then((result) => {
+  //       if (!result) {
+  //         return;
+  //       }
+  //       return knex('users')
+  //         .where('id', id)
+  //         .update(userToUpdate, ['id', 'first_name', 'last_name', 'username', 'email'])
+  //         .then((updatedUser) =>
+  //         camelizeKeys(updatedUser[0]));
+  //     });
+  // }
 }
 
 module.exports = User;

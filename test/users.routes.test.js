@@ -13,7 +13,6 @@ const { addDatabaseHooks } = require('./utils');
 suite('users routes', addDatabaseHooks(() => {
   test('POST /users', (done) => {
     const password = 'jitterbug';
-
     request(server)
       .post('/users')
       .set('Accept', 'application/json')
@@ -64,7 +63,6 @@ suite('users routes', addDatabaseHooks(() => {
 
             // eslint-disable-next-line no-sync
             const isMatch = bcrypt.compareSync(password, hashedPassword);
-
             assert.isTrue(isMatch, "passwords don't match");
             done();
           })
