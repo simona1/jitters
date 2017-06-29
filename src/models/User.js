@@ -34,7 +34,7 @@ class User {
   isAlreadyRegistered(email) {
     return knex('users')
       .select('id', 'username', 'first_name', 'last_name', 'email')
-      .where('email', email)
+      .where(knex.raw('LOWER("email") = ?', email.toLowerCase()))
       .first()
       .then((result) => {
         if (!result) {
@@ -49,8 +49,8 @@ class User {
 
   getUserByUsername(username) {
     return knex('users')
-      .select('id', 'username', 'first_name', 'last_name', 'email')
-      .where('username', username)
+      .select('id', 'username', 'first_name', 'last_name', 'email', 'hashed_password')
+      .where(knex.raw('LOWER("username") = ?', username.toLowerCase()))
       .first()
       .then((result) => {
         return camelizeKeys(result);
