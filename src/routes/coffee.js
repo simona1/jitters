@@ -93,4 +93,150 @@ router.get('/coffee/:id', (req, res) => {
     });
 });
 
+/**
+ * @api {post} /coffee Add a new coffee
+ * @apiGroup Coffee
+ * @apiParam {String} producer_id Coffee producer_id
+ * @apiParam {String} name Coffee name
+ * @apiParam {String} flavor_profile Coffee flavor_profile
+ * @apiParam {String} varieties Coffee varieties
+ * @apiParam {String} description Coffee description
+ * @apiParamExample {json} Input
+ *    {
+ *      "producer_id": "2",
+        "name": "Ethiopia Bulga",
+        "flavor_profile": "Cotton Candy, Strawberry, Sugar, Tangerine",
+        "varieties": "Heirloom",
+        "description": "delicious"
+ *    }
+ * @apiSuccess {Number} id Coffee id
+ * @apiParam {String} producer_id Coffee producer_id
+ * @apiParam {String} name Coffee name
+ * @apiParam {String} flavor_profile Coffee flavor_profile
+ * @apiParam {String} varieties Coffee varieties
+ * @apiParam {String} description Coffee description
+ * @apiSuccessExample {json} Success
+ *    HTTP/1.1 200 OK
+ *    {
+ *      "id": 2,
+ *      "producer_id": "2",
+        "name": "Ethiopia Bulga",
+        "flavor_profile": "Cotton Candy, Strawberry, Sugar, Tangerine",
+        "varieties": "Heirloom",
+        "description": "delicious"
+ *    }
+ * @apiErrorExample {json} Add error
+ *    HTTP/1.1 500 Internal Server Error
+ */
+router.post('/coffee', (req, res) => {
+  const coffee = req.body;
+
+  if (!coffee.name) {
+    return res.status(400)
+      .set('Content-Type', 'text/plain')
+      .send('Coffee name required');
+  }
+
+  coffeeList.addCoffee(coffee)
+  .then(coffee => {
+    res.setHeader('Content-Type', 'application/json')
+    return res.send(coffee[0]);
+  })
+    .catch(err => {
+      res.sendStatus(500);
+    });
+});
+
+
+/**
+ * @api {post} /coffee/:id Update a coffee
+ * @apiGroup Coffee
+ * @apiParam {String} producer_id Coffee producer_id
+ * @apiParam {String} name Coffee name
+ * @apiParam {String} flavor_profile Coffee flavor_profile
+ * @apiParam {String} varieties Coffee varieties
+ * @apiParam {String} description Coffee description
+ * @apiParamExample {json} Input
+ *    {
+ *      "producer_id": "2",
+        "name": "Ethiopia Bulga",
+        "flavor_profile": "Cotton Candy, Strawberry, Sugar, Tangerine",
+        "varieties": "Heirloom",
+        "description": "lorem ipsum"
+ *    }
+ * @apiSuccess {Number} id Coffee id
+ * @apiParam {String} producer_id Coffee producer_id
+ * @apiParam {String} name Coffee name
+ * @apiParam {String} flavor_profile Coffee flavor_profile
+ * @apiParam {String} varieties Coffee varieties
+ * @apiParam {String} description Coffee description
+ * @apiSuccessExample {json} Success
+ *    HTTP/1.1 200 OK
+ *    {
+ *      "id": 2,
+ *      "producer_id": "2",
+        "name": "Ethiopia Bulga",
+        "flavor_profile": "Cotton Candy, Strawberry, Sugar, Tangerine",
+        "varieties": "Heirloom",
+        "description": "delicious"
+ *    }
+ * @apiErrorExample {json} Add error
+ *    HTTP/1.1 500 Internal Server Error
+ */
+router.post('/coffee/:id', (req, res) => {
+  const coffee = req.body;
+  coffee.id = req.params.id;
+
+  if (!coffee.name) {
+    return res.status(400)
+      .set('Content-Type', 'text/plain')
+      .send('Coffee name required');
+  }
+
+  coffeeList.updateCoffee(coffee)
+  .then(coffee => {
+    res.setHeader('Content-Type', 'application/json')
+    return res.send(coffee[0]);
+  })
+    .catch(err => {
+      res.sendStatus(500);
+    });
+});
+
+/**
+ * @api {delete} /coffee/:id Delete a coffee
+ * @apiGroup Coffee
+ * @apiParam {id} id Coffee id
+ * @apiSuccessExample {json} Success
+ *    HTTP/1.1 200 OK
+ *    {
+ *      "id": 2,
+ *      "producer_id": "2",
+        "name": "Ethiopia Bulga",
+        "flavor_profile": "Cotton Candy, Strawberry, Sugar, Tangerine",
+        "varieties": "Heirloom",
+        "description": "Lorem ipsum"
+ *    }
+ * @apiErrorExample {json} Delete error
+ *    HTTP/1.1 500 Internal Server Error
+ */
+router.delete('/coffee/:id', (req, res) => {
+  const id = req.params.id;
+
+  if (isNaN(id)) {
+    return res.sendStatus(404);
+  }
+
+  coffeeList.deleteCoffee(id)
+  .then(deletedCoffee => {
+    if (!deletedCoffee[0]) {
+        res.sendStatus(404);
+      }
+    res.send(deletedCoffee)
+  })
+  .catch(err => {
+      res.status(500).send(err);
+  });
+})
+
 module.exports = router;

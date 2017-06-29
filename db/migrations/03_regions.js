@@ -3,7 +3,7 @@
 exports.up = function(knex) {
   return knex.schema.createTable('regions', (table) => {
     table.increments('id').primary();
-    table.integer('country_id').references('countries.id').notNullable();
+    table.integer('country_id').references('countries.id');
     table.string('name').notNullable().defaultTo('');
     table.decimal('lat', 11, 7);
     table.decimal('long', 11, 7);
