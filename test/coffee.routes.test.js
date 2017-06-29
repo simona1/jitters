@@ -4,9 +4,9 @@ process.env.NODE_ENV = 'test';
 
 const { suite, test } = require('mocha');
 const request = require('supertest');
-const knex = require('../knex');
-const server = require('../index');
-const { addDatabaseHooks } = require('./utils')
+const knex = require('../knex.js');
+const server = require('../index.js');
+const { addDatabaseHooks } = require('./utils.js')
 suite('coffee routes', addDatabaseHooks(() => {
   test('GET /coffee', (done) => {
     /* eslint-disable max-len */
@@ -149,6 +149,5 @@ suite('coffee routes', addDatabaseHooks(() => {
 
   });
   /* eslint-enable max-len */
-
 
 }));

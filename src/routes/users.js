@@ -117,7 +117,7 @@ const REQUIRED_FIELDS = {
         "lastName": "Appleseed",
         "username": "coffeesnob"
       }
- * @apiErrorExample {text/plain; charset=utf-8} Missing fields error stack
+ * @apiErrorExample {text} Missing fields error stack
  *    HTTP/1.1 400 Bad Request
  *    Email is required.
  *    First name is required.
@@ -164,6 +164,29 @@ router.post('/users', (req, res) => {
   });
 });
 
+/**
+ * @api {post} /users/:id User updates
+ * @apiVersion 1.0.0
+ * @apiGroup Users
+ * @apiSuccess {Object} user object
+ * @apiSuccess {Number} id User id
+ * @apiSuccess {String} firstName User first name
+ * @apiSuccess {String} lastName User last name
+ * @apiSuccess {String} username User username
+ * @apiSuccess {String} email User email
+ * @apiSuccessExample {json} Success
+ *    HTTP/1.1 200 OK
+ *    {
+        "email": "gordon@example.com",
+        "firstName": "Gordo",
+        "id": 2,
+        "lastName": "Ramsey",
+        "username": "gramsey"
+      }
+
+ * @apiErrorExample {json} List error
+ *    HTTP/1.1 500 Internal Server Error
+ */
 router.post('/users/:id', (req, res) => {
   const fieldsToUpdate = ['firstName', 'lastName', 'email'];
   const updatedFields = {};
@@ -184,6 +207,5 @@ router.post('/users/:id', (req, res) => {
       res.sendStatus(500);
     });
 })
-
 
 module.exports = router;

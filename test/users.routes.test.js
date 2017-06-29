@@ -6,9 +6,9 @@ const { assert } = require('chai');
 const { suite, test } = require('mocha');
 const request = require('supertest');
 const bcrypt = require('bcrypt');
-const knex = require('../knex');
-const server = require('../index');
-const { addDatabaseHooks } = require('./utils');
+const knex = require('../knex.js');
+const server = require('../index.js');
+const { addDatabaseHooks } = require('./utils.js');
 
 suite('users routes', addDatabaseHooks(() => {
   test('POST /users', (done) => {
@@ -79,7 +79,7 @@ suite('users routes', addDatabaseHooks(() => {
       .set('Accept', 'application/json')
       .set('Content-Type', 'application/json')
       .send({
-        firstName: 'Gord',
+        firstName: 'Gordo',
         password: 'hellskitchen'
       })
       .expect('Content-Type', /json/)
@@ -90,7 +90,7 @@ suite('users routes', addDatabaseHooks(() => {
       })
       .expect(200, {
         id: 2,
-        firstName: 'Gord',
+        firstName: 'Gordo',
         lastName: 'Ramsey',
         username: 'gramsey',
         email: 'gordon@example.com',

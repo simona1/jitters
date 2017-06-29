@@ -21,7 +21,7 @@ let regions = new Region();
  * @apiSuccess {String} regions.lat Region latitude
  * @apiSuccess {String} regions.long Region longitude
  * @apiSuccess {Date} regions.created_at Created date
- * @apiSuccess {Date} regions.updated_at Update date
+ * @apiSuccess {Date} regions.updated_at Updated date
  * @apiSuccessExample {json} Success
  *    HTTP/1.1 200 OK
  *    [ {
@@ -61,7 +61,7 @@ router.get('/regions', (req, res) => {
  * @apiSuccess {String} regions.lat Region latitude
  * @apiSuccess {String} regions.long Region longitude
  * @apiSuccess {Date} regions.created_at Created date
- * @apiSuccess {Date} regions.updated_at Update date
+ * @apiSuccess {Date} regions.updated_at Updated date
  * @apiSuccessExample {json} Success
  *    HTTP/1.1 200 OK
  *    [{
@@ -96,8 +96,6 @@ router.get('/regions/:id', (req, res) => {
       res.status(500).send(err);
   });
 });
-
-
 
 /**
  * @api {post} /regions Add a new region

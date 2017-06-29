@@ -10,9 +10,28 @@ const router = express.Router();
 
 const user = new User();
 
+
+
+/**
+ * @api {post} /users/ Login
+ * @apiVersion 1.0.0
+ * @apiGroup Login
+ * @apiSuccess {Object} user object
+ // Cookie header
+ * @apiSuccessExample {json} Success
+ *    HTTP/1.1 200 OK
+ *
+ * @apiErrorExample {text} Missing password
+ *    HTTP/1.1 400 Bad Request
+ *    Password must not be blank
+ * @apiErrorExample {text} Missing username
+ *    HTTP/1.1 400 Bad Request
+ *    Username must not be blank
+ * @apiErrorExample {text} List error
+ *    HTTP/1.1 500 Internal Server Error
+ */
 router.post('/login', (req, res) => {
   const { username, password } = req.body;
-  console.log(username.toLowerCase());
   if (!username) {
     return res
       .status(400)
@@ -53,8 +72,6 @@ router.post('/login', (req, res) => {
           const secret = process.env.JWT_KEY;
           const token = jwt.sign(payload, secret, (err, token) => {
             res
-              // .status(200)
-              // .set('Content-Type', 'text/plain')
               .cookie('auth', token)
               .sendStatus(200);
           });

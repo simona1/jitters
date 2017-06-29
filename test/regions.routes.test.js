@@ -4,9 +4,9 @@ process.env.NODE_ENV = 'test';
 
 const { suite, test } = require('mocha');
 const request = require('supertest');
-const knex = require('../knex');
-const server = require('../index');
-const { addDatabaseHooks } = require('./utils')
+const knex = require('../knex.js');
+const server = require('../index.js');
+const { addDatabaseHooks } = require('./utils.js')
 suite('regions routes', addDatabaseHooks(() => {
   test('GET /regions', (done) => {
     /* eslint-disable max-len */
@@ -72,7 +72,7 @@ suite('regions routes', addDatabaseHooks(() => {
      }], done);
 });
 
-test('GET /regions/:id with non number id', (done) => {
+test('GET /regions/:id with non-numeric id', (done) => {
 request(server)
  .get('/regions/a')
  .set('Accept', 'application/json')
@@ -102,7 +102,7 @@ test('POST /regions', (done) => {
      }, done);
  });
 
- test('POST /regions with user inputted coordinates', (done) => {
+ test('POST /regions with coordinates from user input', (done) => {
     request(server)
       .post('/regions')
       .set('Accept', 'application/json')
