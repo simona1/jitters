@@ -203,6 +203,23 @@ router.post('/coffee/:id', (req, res) => {
     });
 });
 
+/**
+ * @api {delete} /coffee/:id Delete a coffee
+ * @apiGroup Coffee
+ * @apiParam {id} id Coffee id
+ * @apiSuccessExample {json} Success
+ *    HTTP/1.1 200 OK
+ *    {
+ *      "id": 2,
+ *      "producer_id": "2",
+        "name": "Ethiopia Bulga",
+        "flavor_profile": "Cotton Candy, Strawberry, Sugar, Tangerine",
+        "varieties": "Heirloom",
+        "description": "Lorem ipsum"
+ *    }
+ * @apiErrorExample {json} Delete error
+ *    HTTP/1.1 500 Internal Server Error
+ */
 router.delete('/coffee/:id', (req, res) => {
   const id = req.params.id;
 
