@@ -74,8 +74,6 @@ router.post('/login', (req, res) => {
           const secret = process.env.JWT_KEY;
           const token = jwt.sign(payload, secret, (err, token) => {
             res
-              // .status(200)
-              // .set('Content-Type', 'text/plain')
               .cookie('auth', token)
               .sendStatus(200);
           });

@@ -4,9 +4,9 @@ process.env.NODE_ENV = 'test';
 
 const { suite, test } = require('mocha');
 const request = require('supertest');
-const knex = require('../knex');
-const server = require('../index');
-const { addDatabaseHooks } = require('./utils')
+const knex = require('../knex.js');
+const server = require('../index.js');
+const { addDatabaseHooks } = require('./utils.js')
 suite('countries routes', addDatabaseHooks(() => {
   test('GET /countries', (done) => {
     /* eslint-disable max-len */
@@ -55,8 +55,8 @@ suite('countries routes', addDatabaseHooks(() => {
           description: "Lorem ipsum",
           flavorProfile: "Fruity, radiant, creamy",
           id: 1,
-          lat: 6.1620450,
-          long: 38.2058150,
+          lat: 6.1620447,
+          long: 38.2058155,
           name: "Three Africas",
           producerId: 1,
           regionName: "Yirgacheffe",

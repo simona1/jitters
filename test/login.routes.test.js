@@ -4,9 +4,9 @@ process.env.NODE_ENV = 'test';
 
 const { suite, test } = require('mocha');
 const request = require('supertest');
-const knex = require('../knex');
-const server = require('../index');
-const { addDatabaseHooks } = require('./utils')
+const knex = require('../knex.js');
+const server = require('../index.js');
+const { addDatabaseHooks } = require('./utils.js')
 
 suite('routes login', addDatabaseHooks(() => {
   test('POST /login', (done) => {
@@ -18,7 +18,6 @@ suite('routes login', addDatabaseHooks(() => {
         username: 'coffeeAdmin',
         password: 'gotjitters'
       })
-      // .expect('set-cookie', /auth=[a-zA-Z0-9\-_]+\.[a-zA-Z0-9\-_]+\.[a-zA-Z0-9\-_]+; Path=\/;/)
       .expect((res) => {
         delete res.body.createdAt;
         delete res.body.updatedAt;

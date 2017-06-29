@@ -2,8 +2,8 @@ process.env.NODE_ENV = 'test';
 
 const assert = require('chai').assert;
 const { suite, test } = require('mocha');
-const knex = require('../knex');
-const { addDatabaseHooks } = require('./utils')
+const knex = require('../knex.js');
+const { addDatabaseHooks } = require('./utils.js')
 suite('coffee_regions migrations', addDatabaseHooks(() => {
   test('coffee_regions columns', (done) => {
     knex('coffee_regions').columnInfo()
@@ -52,7 +52,6 @@ suite('coffee_regions migrations', addDatabaseHooks(() => {
             `Column ${column} is not the same`
           );
         }
-
         done();
       })
       .catch((err) => {

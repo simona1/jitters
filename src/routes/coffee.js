@@ -82,7 +82,7 @@ router.get('/coffee/:id', (req, res) => {
   const id = req.params.id;
   coffeeList.getCoffeeById(id)
     .then(coffee => {
-      if (coffeeList.length === 0) {
+      if (!coffee || coffeeList.length === 0) {
          res.sendStatus(404);
          return;
       }
@@ -148,7 +148,7 @@ router.post('/coffee', (req, res) => {
 });
 
 /**
- * @api {post} /coffee/regions Add a region to a coffee
+ * @api {post} /coffee/region Add a region to coffee
  * @apiVersion 1.0.0
  * @apiGroup Coffee
  * @apiParam {String} coffeeId Coffee id
@@ -195,7 +195,7 @@ router.post('/coffee/region', (req, res) => {
 })
 
 /**
- * @api {post} /coffee/:id Update a coffee
+ * @api {post} /coffee/:id Update coffee
  * @apiGroup Coffee
  * @apiParam {String} producer_id Coffee producer_id
  * @apiParam {String} name Coffee name
@@ -250,7 +250,7 @@ router.post('/coffee/:id', (req, res) => {
 });
 
 /**
- * @api {delete} /coffee/:id Delete a coffee
+ * @api {delete} /coffee/:id Delete coffee
  * @apiGroup Coffee
  * @apiParam {id} id Coffee id
  * @apiSuccessExample {json} Success

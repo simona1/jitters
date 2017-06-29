@@ -8,9 +8,9 @@ const { assert } = require('chai');
 const { suite, test } = require('mocha');
 const request = require('supertest');
 const bcrypt = require('bcrypt');
-const knex = require('../knex');
-const server = require('../index');
-const { addDatabaseHooks } = require('./utils');
+const knex = require('../knex.js');
+const server = require('../index.js');
+const { addDatabaseHooks } = require('./utils.js');
 
 suite('users - new user registration error check', addDatabaseHooks(() => {
   test('POST /users with multiple missing required fields', (done) => {

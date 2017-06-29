@@ -1,4 +1,3 @@
-module.exports = { hasToken, isLoggedIn, isAdministrator }
 
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
@@ -34,3 +33,5 @@ function isAdministrator(req, res, next) {
     }
   });
 }
+
+module.exports = { hasToken, isLoggedIn, isAdministrator };

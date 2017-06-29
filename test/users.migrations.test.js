@@ -5,10 +5,8 @@ const {
   suite,
   test
 } = require( 'mocha' );
-const knex = require( '../knex' );
-const {
-  addDatabaseHooks
-} = require( './utils' )
+const knex = require( '../knex.js' );
+const { addDatabaseHooks } = require( './utils.js' )
 suite( 'users migrations', addDatabaseHooks( () => {
   test( 'users columns', ( done ) => {
     knex( 'users' ).columnInfo()
@@ -85,11 +83,10 @@ suite( 'users migrations', addDatabaseHooks( () => {
             `Column ${column} is not the same`
           );
         }
-
         done();
-      } )
+      })
       .catch( ( err ) => {
         done( err );
-      } );
-  } );
-} ) );
+      });
+  });
+}));
