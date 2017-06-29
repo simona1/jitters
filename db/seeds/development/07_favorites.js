@@ -6,7 +6,7 @@ exports.seed = function(knex, Promise) {
       // Inserts seed entries
       return knex('favorites').insert([
         {
-          id: 1,
+          id: 2,
           user_id: 1,
           coffee_id: 1,
           created_at: new Date('2017-06-23 14:56:16 UTC'),

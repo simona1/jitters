@@ -6,22 +6,26 @@ if (process.env.NODE_ENV !== 'production') {
 
 const bodyParser = require('body-parser');
 const express = require('express');
+const path = require('path');
 
 const app = express();
 
-app.use(bodyParser.json());
+app.disable('x-powered-by');
 
+app.use(bodyParser.json());
 app.use(express.static('public'));
 
 const countries = require('./src/routes/countries');
 const regions = require('./src/routes/regions');
 const producers = require('./src/routes/producers');
 const coffee = require('./src/routes/coffee');
+const users = require('./src/routes/users');
 
 app.use(countries);
 app.use(regions);
 app.use(producers);
 app.use(coffee);
+app.use(users);
 
 app.use((req, res) => {
   res.sendStatus(404);
