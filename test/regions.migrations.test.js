@@ -26,7 +26,7 @@ suite('regions migrations', addDatabaseHooks(() => {
           country_id: {
             type: 'integer',
             maxLength: null,
-            nullable: false,
+            nullable: true,
             defaultValue: null
           },
 
