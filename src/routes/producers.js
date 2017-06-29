@@ -2,9 +2,13 @@
 
 const express = require('express');
 
+const cookieParser = require('cookie-parser');
+const { hasToken, isLoggedIn, isAdministrator } = require('./access');
 const Producer = require('../models/Producer.js');
 
 const router = express.Router();
+
+router.use(cookieParser());
 
 let producers = new Producer;
 
@@ -94,7 +98,7 @@ router.get('/producers/:id', (req, res) => {
  * @apiErrorExample {json} List error
  *    HTTP/1.1 500 Internal Server Error
  */
-router.post('/producers', (req, res) => {
+router.post('/producers', hasToken, isLoggedIn, (req, res) => {
   const producerToAdd = req.body;
 
   if (!producerToAdd.name) {
@@ -141,7 +145,7 @@ router.post('/producers', (req, res) => {
  * @apiErrorExample {json} List error
  *    HTTP/1.1 500 Internal Server Error
  */
-router.post('/producers/:id', (req, res) => {
+router.post('/producers/:id', hasToken, isLoggedIn, (req, res) => {
   const id = req.params.id;
   const producerToUpdate = req.body;
 
