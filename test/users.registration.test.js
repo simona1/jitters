@@ -12,7 +12,7 @@ const knex = require('../knex');
 const server = require('../index');
 const { addDatabaseHooks } = require('./utils');
 
-suite('Users route error checking', addDatabaseHooks(() => {
+suite('users - new user registration error check', addDatabaseHooks(() => {
   test('POST /users with multiple missing required fields', (done) => {
     request(server)
       .post('/users')
