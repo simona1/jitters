@@ -117,7 +117,7 @@ const REQUIRED_FIELDS = {
         "lastName": "Appleseed",
         "username": "coffeesnob"
       }
- * @apiErrorExample {text/plain; charset=utf-8} Missing fields error stack
+ * @apiErrorExample {text} Missing fields error stack
  *    HTTP/1.1 400 Bad Request
  *    Email is required.
  *    First name is required.
@@ -178,7 +178,7 @@ router.post('/users', (req, res) => {
  *    HTTP/1.1 200 OK
  *    {
         "email": "gordon@example.com",
-        "firstName": "Gordie",
+        "firstName": "Gordo",
         "id": 2,
         "lastName": "Ramsey",
         "username": "gramsey"

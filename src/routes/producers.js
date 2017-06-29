@@ -3,7 +3,7 @@
 const express = require('express');
 
 const cookieParser = require('cookie-parser');
-const { hasToken, isLoggedIn, isAdministrator } = require('./access');
+const { hasToken, isLoggedIn, isAdministrator } = require('./access.js');
 const Producer = require('../models/Producer.js');
 
 const router = express.Router();

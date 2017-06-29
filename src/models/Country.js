@@ -13,16 +13,6 @@ class Country {
     });
   }
 
-  // getCountriesById(id) {
-  //   return knex('countries')
-  //     .where('id', id)
-  //     .first()
-  //     .then((result) => camelizeKeys(result))
-  //     .catch((err) => {
-  //       console.error(err);
-  //     });
-  // }
-
   getCoffeeByCountryId(id) {
     return knex('coffee')
       .select('coffee.id', 'coffee.name', 'coffee.description', 'coffee.varieties', 'coffee.producer_id', 'regions.id', 'coffee.flavor_profile', 'regions.lat', 'regions.long', 'countries.name as country_name', 'regions.name as region_name')

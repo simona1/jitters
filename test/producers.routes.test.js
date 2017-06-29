@@ -4,13 +4,32 @@ process.env.NODE_ENV = 'test';
 
 const { suite, test } = require('mocha');
 const request = require('supertest');
-const knex = require('../knex');
-const server = require('../index');
-const { addDatabaseHooks } = require('./utils')
+const knex = require('../knex.js');
+const server = require('../index.js');
+const { addDatabaseHooks } = require('./utils.js')
 suite('producers routes', addDatabaseHooks(() => {
+  const agent = request.agent(server);
+
+  beforeEach((done) => {
+    agent
+      .post('/login')
+      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
+      .send({
+        username: 'coffeeAdmin',
+        password: 'gotjitters',
+      })
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        done();
+      });
+  });
+
   test('GET /producers', (done) => {
     /* eslint-disable max-len */
-    request(server)
+    agent
       .get('/producers')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
@@ -36,7 +55,7 @@ suite('producers routes', addDatabaseHooks(() => {
 
   test('GET /producers:id', (done) => {
     /* eslint-disable max-len */
-    request(server)
+    agent
       .get('/producers/1')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
@@ -59,7 +78,7 @@ suite('producers routes', addDatabaseHooks(() => {
 
   test('POST /producers', (done) => {
     /* eslint-disable max-len */
-    request(server)
+    agent
       .post('/producers')
       .set('Accept', 'application/json')
       .send({
@@ -82,7 +101,7 @@ suite('producers routes', addDatabaseHooks(() => {
 
   test('POST /producers/:id', (done) => {
     /* eslint-disable max-len */
-    request(server)
+    agent
       .post('/producers/1')
       .set('Accept', 'application/json')
       .send({
