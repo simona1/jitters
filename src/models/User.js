@@ -34,7 +34,7 @@ class User {
   getUser(id) {
     return knex('users')
       .select('id', 'username', 'first_name', 'last_name', 'email')
-      .where('id', id)
+      .where(knex.raw('LOWER("email") = ?', email.toLowerCase()))
       .first()
       .then((result) => {
         return camelizeKeys(result);
@@ -47,7 +47,7 @@ class User {
   getUserByUsername(username) {
     return knex('users')
       .select('id', 'username', 'first_name', 'last_name', 'email', 'hashed_password')
-      .where('username', username)
+      .where(knex.raw('LOWER("username") = ?', username.toLowerCase()))
       .first()
       .then((result) => {
         return camelizeKeys(result);
