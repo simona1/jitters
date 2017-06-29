@@ -164,45 +164,26 @@ router.post('/users', (req, res) => {
   });
 });
 
+router.post('/users/:id', (req, res) => {
+  const fieldsToUpdate = ['firstName', 'lastName', 'email'];
+  const updatedFields = {};
+  fieldsToUpdate.forEach( field => {
+    if (req.body[field]) {
+      updatedFields[field] = req.body[field];
+    }
+  });
+  const id = req.params.id;
+  const password = req.body.password;
 
+  return users.updateUser(id, updatedFields)
+    .then(result => {
+      res.status(200).set('Content-Type',
+       'application/json').send(camelizeKeys(result));
+    })
+    .catch(err => {
+      res.sendStatus(500);
+    });
+})
 
-
-// router.post('/users/:id', (req, res) => {
-//   const userToUpdate = {};
-//   const errors = [];
-
-  // Object.keys(REQUIRED_FIELDS).forEach(field => {
-  //   if (!req.body[field]) {
-  //     errors.push(REQUIRED_FIELDS[field] + ' is required.');
-  //     return;
-  //   }
-  //   userToAdd[field] = req.body[field];
-  // });
-  // if (errors.length > 0) {
-  //   res.status(400)
-  //     .set('Content-Type', 'text/plain')
-  //     .send(errors.join(' '));
-  //   return;
-  // }
-
-//   if (userToAdd.password.length < 8) {
-//     res.status(400)
-//       .set('Content-Type', 'text/plain')
-//       .send('Password must be at least 8 characters long');
-//     return;
-//   }
-//
-//   bcrypt.hash(userToAdd.password, saltRounds).then(hashedPassword => {
-//     delete userToAdd.password;
-//     userToAdd.hashedPassword = hashedPassword;
-//     return users.addUser(userToAdd)
-//       .then(result => {
-//         res.status(200).send(camelizeKeys(result));
-//       });
-//   })
-//   .catch(err => {
-//     res.sendStatus(500);
-//   });
-// });
 
 module.exports = router;

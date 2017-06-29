@@ -31,16 +31,13 @@ class User {
       });
   }
 
-  isAlreadyRegistered(email) {
+  getUser(id) {
     return knex('users')
       .select('id', 'username', 'first_name', 'last_name', 'email')
-      .where('email', email)
+      .where('id', id)
       .first()
       .then((result) => {
-        if (!result) {
-          return false;
-        }
-        return true;
+        return camelizeKeys(result);
       })
       .catch((err) => {
         console.error(err);
@@ -49,7 +46,7 @@ class User {
 
   getUserByUsername(username) {
     return knex('users')
-      .select('id', 'username', 'first_name', 'last_name', 'email')
+      .select('id', 'username', 'first_name', 'last_name', 'email', 'hashed_password')
       .where('username', username)
       .first()
       .then((result) => {
@@ -66,30 +63,26 @@ class User {
       .insert(decamelizeKeys(userToAdd), ['first_name', 'last_name', 'username', 'email'])
       .returning([...columns, 'id'])
       .then((result) => {
-
-      return camelizeKeys(result[0]);
+        return camelizeKeys(result[0]);
       })
       .catch((err) => {
         console.error(err.stack);
       });
   }
 
-  // updateUser(id, userToUpdate) {
-  //   userToUpdate = decamelizeKeys(userToUpdate);
-  //   return knex('users')
-  //     .where({ id })
-  //     .first()
-  //     .then((result) => {
-  //       if (!result) {
-  //         return;
-  //       }
-  //       return knex('users')
-  //         .where('id', id)
-  //         .update(userToUpdate, ['id', 'first_name', 'last_name', 'username', 'email'])
-  //         .then((updatedUser) =>
-  //         camelizeKeys(updatedUser[0]));
-  //     });
-  // }
+  updateUser(id, fieldsToUpdate) {
+    fieldsToUpdate = decamelizeKeys(fieldsToUpdate);
+    return knex('users')
+      .select('*')
+      .where('id', id)
+      .update(fieldsToUpdate, ['id', 'first_name', 'last_name', 'email', 'username'])
+      .then((updatedUser) => {
+        return camelizeKeys(updatedUser[0]);
+      })
+      .catch((err) => {
+        console.error(err.stack);
+      });
+  }
 }
 
 module.exports = User;

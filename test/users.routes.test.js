@@ -71,4 +71,32 @@ suite('users routes', addDatabaseHooks(() => {
           });
       });
   });
+
+  test('POST /users/:id', (done) => {
+    /* eslint-disable max-len */
+    request(server)
+      .post('/users/2')
+      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
+      .send({
+        firstName: 'Gord',
+        password: 'hellskitchen'
+      })
+      .expect('Content-Type', /json/)
+      .expect((res) => {
+        delete res.body.createdAt;
+        delete res.body.updatedAt;
+        delete res.body.acccess;
+      })
+      .expect(200, {
+        id: 2,
+        firstName: 'Gord',
+        lastName: 'Ramsey',
+        username: 'gramsey',
+        email: 'gordon@example.com',
+      }, done);
+
+      /* eslint-enable max-len */
+  });
+
 }));
