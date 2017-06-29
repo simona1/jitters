@@ -58,7 +58,12 @@ class Region {
       });
   }
 
-
+  getRegionById(id) {
+    return knex('regions')
+      .where({ id })
+      .first()
+      .then((result) => camelizeKeys(result));
+  }
 
 }
 

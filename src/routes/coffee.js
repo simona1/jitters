@@ -147,6 +147,24 @@ router.post('/coffee', (req, res) => {
     });
 });
 
+/* --------------------------------------- */
+router.post('/coffee/regions', (req, res) => {
+  const coffeeId = req.body.coffeeId;
+  const regionId = req.body.regionId;
+
+  coffeeList.getCoffeeAndRegionIds(coffeeId, regionId)
+    .then((ids) => {
+      if (!ids) {
+        res.send(400);
+        return;
+      }
+      coffeeList.addCoffeeAndRegionIds(req.body)
+        .then((result) => {
+          console.log(result);
+          res.send(result);
+        })
+    })
+})
 
 /**
  * @api {post} /coffee/:id Update a coffee

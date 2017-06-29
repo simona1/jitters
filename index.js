@@ -22,7 +22,6 @@ const coffee = require('./src/routes/coffee');
 const users = require('./src/routes/users');
 const login = require('./src/routes/login');
 
-
 app.use(countries);
 app.use(regions);
 app.use(producers);

@@ -65,6 +65,27 @@ class Coffee {
         console.error(err);
     });
   }
+
+  // just used for checking that both coffee and region exist
+  getCoffeeAndRegionIds(coffeeId, regionId) {
+    console.log(coffeeId, regionId);
+    return knex.select('coffee.id as coffee_id','regions.id as region_id')
+      .from('coffee').crossJoin('regions')
+      .where('coffee.id', coffeeId).where('regions.id', regionId)
+      .first()
+      .then((result) => {
+        console.log(result);
+        return camelizeKeys(result);
+      });
+  }
+
+  // add a record to coffee_joins table
+  addCoffeeAndRegionIds(ids) {
+    console.log(decamelizeKeys(ids));
+    return knex('coffee_regions')
+      .insert(decamelizeKeys(ids), '*')
+      .then((result) => camelizeKeys(result));
+  }
 }
 
 module.exports = Coffee;
