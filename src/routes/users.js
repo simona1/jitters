@@ -127,7 +127,7 @@ const REQUIRED_FIELDS = {
  * @apiErrorExample {json} List error
  *    HTTP/1.1 500 Internal Server Error
  */
-router.post('/users', async (req, res) => {
+router.post('/users', (req, res) => {
   const userToAdd = {};
   const errors = [];
   Object.keys(REQUIRED_FIELDS).forEach(field => {
@@ -151,46 +151,6 @@ router.post('/users', async (req, res) => {
     return;
   }
 
-  try {
-    const emailExists = await users.isAlreadyRegistered(userToAdd.email);
-    const hashedPassword = await bcrypt.hash(userToAdd.password, saltRounds)
-    delete userToAdd.password;
-    userToAdd.hashedPassword = hashedPassword;
-    const result = await users.addUser(userToAdd);
-
-  } catch (err) {
-    console.error(err.stack);
-    res.sendStatus(500);
-    return;
-  }
-  res.status(200).send(camelizeKeys(result));
-});
-
-router.post('/users/:id', (req, res) => {
-  const userToUpdate = {};
-  const errors = [];
-
-  // Object.keys(REQUIRED_FIELDS).forEach(field => {
-  //   if (!req.body[field]) {
-  //     errors.push(REQUIRED_FIELDS[field] + ' is required.');
-  //     return;
-  //   }
-  //   userToAdd[field] = req.body[field];
-  // });
-  // if (errors.length > 0) {
-  //   res.status(400)
-  //     .set('Content-Type', 'text/plain')
-  //     .send(errors.join(' '));
-  //   return;
-  // }
-
-  if (userToAdd.password.length < 8) {
-    res.status(400)
-      .set('Content-Type', 'text/plain')
-      .send('Password must be at least 8 characters long');
-    return;
-  }
-
   bcrypt.hash(userToAdd.password, saltRounds).then(hashedPassword => {
     delete userToAdd.password;
     userToAdd.hashedPassword = hashedPassword;
@@ -203,5 +163,27 @@ router.post('/users/:id', (req, res) => {
     res.sendStatus(500);
   });
 });
+
+router.post('/users/:id', (req, res) => {
+  const fieldsToUpdate = ['firstName', 'lastName', 'email'];
+  const updatedFields = {};
+  fieldsToUpdate.forEach( field => {
+    if (req.body[field]) {
+      updatedFields[field] = req.body[field];
+    }
+  });
+  const id = req.params.id;
+  const password = req.body.password;
+
+  return users.updateUser(id, updatedFields)
+    .then(result => {
+      res.status(200).set('Content-Type',
+       'application/json').send(camelizeKeys(result));
+    })
+    .catch(err => {
+      res.sendStatus(500);
+    });
+})
+
 
 module.exports = router;

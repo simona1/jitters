@@ -13,7 +13,6 @@ const { addDatabaseHooks } = require('./utils');
 suite('users routes', addDatabaseHooks(() => {
   test('POST /users', (done) => {
     const password = 'jitterbug';
-
     request(server)
       .post('/users')
       .set('Accept', 'application/json')
@@ -64,7 +63,6 @@ suite('users routes', addDatabaseHooks(() => {
 
             // eslint-disable-next-line no-sync
             const isMatch = bcrypt.compareSync(password, hashedPassword);
-
             assert.isTrue(isMatch, "passwords don't match");
             done();
           })
@@ -73,4 +71,32 @@ suite('users routes', addDatabaseHooks(() => {
           });
       });
   });
+
+  test('POST /users/:id', (done) => {
+    /* eslint-disable max-len */
+    request(server)
+      .post('/users/2')
+      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
+      .send({
+        firstName: 'Gord',
+        password: 'hellskitchen'
+      })
+      .expect('Content-Type', /json/)
+      .expect((res) => {
+        delete res.body.createdAt;
+        delete res.body.updatedAt;
+        delete res.body.acccess;
+      })
+      .expect(200, {
+        id: 2,
+        firstName: 'Gord',
+        lastName: 'Ramsey',
+        username: 'gramsey',
+        email: 'gordon@example.com',
+      }, done);
+
+      /* eslint-enable max-len */
+  });
+
 }));
