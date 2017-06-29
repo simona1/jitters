@@ -45,8 +45,8 @@ suite('regions routes', addDatabaseHooks(() => {
         {
           id: 1,
           name: 'Yirgacheffe',
-          lat: 6.1620450,
-          long: 38.2058150,
+          lat: 6.1620447,
+          long: 38.2058155,
           countryId: 2,
           createdAt: '2017-06-23T14:56:16.000Z',
           updatedAt: '2017-06-23T14:56:16.000Z'
@@ -63,8 +63,8 @@ suite('regions routes', addDatabaseHooks(() => {
        description: 'Lorem ipsum',
        flavorProfile: 'Fruity, radiant, creamy',
        id: 1,
-       lat: 6.1620450,
-       long: 38.2058150,
+       lat: 6.1620447,
+       long: 38.2058155,
        name: 'Three Africas',
        producerId: 1,
        regionName: 'Yirgacheffe',
@@ -86,7 +86,7 @@ test('POST /regions', (done) => {
      .set('Accept', 'application/json')
      .send({
        country_id: 1,
-       name: 'kona',
+       name: 'Yirgacheffe',
      })
      .expect('Content-Type', /json/)
      .expect((res) => {
@@ -96,9 +96,9 @@ test('POST /regions', (done) => {
      .expect(200, {
        id: 5,
        countryId: 1,
-       name: 'kona',
-       lat: 19.639994,
-       long: -155.9969261,
+       name: 'Yirgacheffe',
+       lat: 6.1620447,
+       long: 38.2058155,
      }, done);
  });
 
