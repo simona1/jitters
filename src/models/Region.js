@@ -57,6 +57,7 @@ class Region {
         console.error(err);
       });
   }
+
 }
 
 module.exports = Region;

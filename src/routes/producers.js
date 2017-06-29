@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.use(cookieParser());
 
-let producers = new Producer;
+let producers = new Producer();
 
 /**
  * @api {get} /producers List all producers
