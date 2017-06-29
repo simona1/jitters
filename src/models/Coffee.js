@@ -84,7 +84,7 @@ class Coffee {
     console.log(decamelizeKeys(ids));
     return knex('coffee_regions')
       .insert(decamelizeKeys(ids), '*')
-      .then((result) => camelizeKeys(result));
+      .then((result) => camelizeKeys(result[0]));
   }
 }
 

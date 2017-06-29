@@ -10,9 +10,30 @@ const router = express.Router();
 
 const user = new User();
 
+/**
+ * @api {post} /login Login the user
+ * @apiVersion 1.0.0
+ * @apiGroup Users
+ * @apiParam {String} username Username
+ * @apiParam {String} password Password
+ * @apiParamExample {json} Input
+ *    {
+ *      "username": "jiitteryjoe",
+ *      "password": "cantsleep",
+ *    }
+ * @apiSuccessExample {string} Success
+ *    HTTP/1.1 200 OK
+ * @apiErrorExample {string} Username required
+ *    HTTP/1.1 400 Username must not be blank
+ * @apiErrorExample {string} Password required
+ *    HTTP/1.1 400 Password must not be blank
+ * @apiErrorExample {string} Login failed
+ *    HTTP/1.1 400 Bad username or password
+ * @apiErrorExample {string} 500
+ *    HTTP/1.1 500 Internal Server Error
+ */
 router.post('/login', (req, res) => {
   const { username, password } = req.body;
-  console.log(username.toLowerCase());
   if (!username) {
     return res
       .status(400)

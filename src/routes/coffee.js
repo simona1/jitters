@@ -147,8 +147,37 @@ router.post('/coffee', (req, res) => {
     });
 });
 
-/* --------------------------------------- */
-router.post('/coffee/regions', (req, res) => {
+/**
+ * @api {post} /coffee/regions Add a region to a coffee
+ * @apiVersion 1.0.0
+ * @apiGroup Coffee
+ * @apiParam {String} coffeeId Coffee id
+ * @apiParam {String} regionId Region id
+ * @apiParamExample {json} Input
+ *    {
+ *      "coffeeId": "2",
+ *      "regionId": "3",
+ *    }
+ * @apiSuccess {Number} id coffee_regions id
+ * @apiSuccess {String} coffeeId Coffee id
+ * @apiSuccess {String} regionId Region id
+ * @apiSuccess {String} createdAt Created Date
+ * @apiSuccess {String} varieties Updated Date
+ * @apiSuccessExample {json} Success
+ *    HTTP/1.1 200 OK
+ *  {
+ *    "id": 8,
+ *    "coffeeId": 2,
+ *    "regionId": 3,
+ *    "createdAt": "2017-06-29T15:06:12.003Z",
+ *    "updatedAt": "2017-06-29T15:06:12.003Z"
+ *  }
+ * @apiErrorExample {json} Add error
+ *    HTTP/1.1 400 Bad Request Error
+ * @apiErrorExample {json} Add error
+ *    HTTP/1.1 500 Internal Server Error
+ */
+router.post('/coffee/region', (req, res) => {
   const coffeeId = req.body.coffeeId;
   const regionId = req.body.regionId;
 
@@ -160,7 +189,6 @@ router.post('/coffee/regions', (req, res) => {
       }
       coffeeList.addCoffeeAndRegionIds(req.body)
         .then((result) => {
-          console.log(result);
           res.send(result);
         })
     })
