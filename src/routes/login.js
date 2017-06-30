@@ -79,12 +79,10 @@ router.post('/login', (req, res) => {
           });
         })
         .catch(err => {
-          console.log(err);
           res.sendStatus(500);
         });
     })
     .catch(err => {
-      console.log(err);
       res.sendStatus(500);
     });
 });

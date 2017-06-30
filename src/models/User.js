@@ -12,10 +12,7 @@ class User {
     return knex('users')
       .select('id', 'username', 'first_name', 'last_name', 'email')
       .orderBy('id')
-      .then((result) => camelizeKeys(result))
-      .catch((err) => {
-        console.error(err);
-      });
+      .then((result) => camelizeKeys(result));
   }
 
   getUserById(id) {
@@ -25,9 +22,6 @@ class User {
       .first()
       .then((result) => {
         return camelizeKeys(result);
-      })
-      .catch((err) => {
-        console.error(err);
       });
   }
 
@@ -38,9 +32,6 @@ class User {
       .first()
       .then((result) => {
         return camelizeKeys(result);
-      })
-      .catch((err) => {
-        console.error(err);
       });
   }
 
@@ -51,9 +42,6 @@ class User {
       .first()
       .then((result) => {
         return camelizeKeys(result);
-      })
-      .catch((err) => {
-        console.error(err);
       });
   }
 
@@ -64,9 +52,6 @@ class User {
       .returning([...columns, 'id'])
       .then((result) => {
         return camelizeKeys(result[0]);
-      })
-      .catch((err) => {
-        console.error(err.stack);
       });
   }
 
@@ -78,9 +63,6 @@ class User {
       .update(fieldsToUpdate, ['id', 'first_name', 'last_name', 'email', 'username'])
       .then((updatedUser) => {
         return camelizeKeys(updatedUser[0]);
-      })
-      .catch((err) => {
-        console.error(err.stack);
       });
   }
 }

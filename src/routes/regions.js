@@ -10,7 +10,6 @@ const router = express.Router();
 
 let regions = new Region();
 
-
 /**
  * @api {get} /regions List all regions
  * @apiVersion 1.0.0
@@ -156,7 +155,7 @@ fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${region.name}&
       });
     })
     .catch(err => {
-      console.log(err);
+      res.sendStatus(500);
     })
 });
 
@@ -220,7 +219,7 @@ fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${region.name}&
       });
     })
     .catch(err => {
-      console.log(err);
+      res.sendStatus(500);
     })
 });
 
