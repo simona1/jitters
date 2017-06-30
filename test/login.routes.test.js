@@ -53,4 +53,36 @@ suite('routes login', addDatabaseHooks(() => {
       .expect('Content-Type', /plain/)
       .expect(400, 'Bad username or password', done);
   });
+
+  test('POST /login without username', (done) => {
+    request(server)
+      .post('/login')
+      .set('Content-Type', 'application/json')
+      .send({
+        password: 'gotjitters'
+      })
+      .expect('Content-Type', /plain/)
+      .expect(400, 'Username must not be blank', done);
+  });
+
+  test('POST /login without password', (done) => {
+    request(server)
+      .post('/login')
+      .set('Content-Type', 'application/json')
+      .send({
+        username: 'coffeeAdmin@example.com',
+      })
+      .expect('Content-Type', /plain/)
+      .expect(400, 'Password must not be blank', done);
+  });
+
+  // simple test, not related to login or logout
+  test('GET /does-not-exist', (done) => {
+    request(server)
+      .get('/does-not-exist')
+      .set('Content-Type', 'application/json')
+      .expect('Content-Type', /plain/)
+      .expect(404, 'Not Found', done);
+  });
+
 }));
