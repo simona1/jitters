@@ -40,12 +40,18 @@ const router = express.Router();
         "username": "gramsey"
       }
     ]
+ * @apiErrorExample {json} User list not found
+ *    HTTP/1.1 404 Not Found
  * @apiErrorExample {json} List error
  *    HTTP/1.1 500 Internal Server Error
  */
 router.get('/users', (req, res) => {
   users.getUsers()
     .then((users) => {
+      if (!users) {
+        res.sendStatus(404);
+        return;
+      }
       res.send(users);
     })
     .catch((err) => {
@@ -57,7 +63,10 @@ router.get('/users', (req, res) => {
  * @api {get} /users/:id List user with the given id
  * @apiVersion 1.0.0
  * @apiGroup Users
- * @apiSuccess {Object} user object
+ *
+ * @apiParam {Number} id User unique id
+ *
+ * @apiSuccess {Object} User object
  * @apiSuccess {Number} id User id
  * @apiSuccess {String} firstName User first name
  * @apiSuccess {String} lastName User last name
@@ -72,6 +81,8 @@ router.get('/users', (req, res) => {
         "lastName": "Admin",
         "username": "coffeeAdmin"
       }
+ * @apiErrorExample {json} User not found
+ *    HTTP/1.1 404 Not Found
  * @apiErrorExample {json} List error
  *    HTTP/1.1 500 Internal Server Error
  */
@@ -124,6 +135,8 @@ const REQUIRED_FIELDS = {
  *    Last name is required.
  *    Password is required.
  *    Username is required.
+ * @apiErrorExample {json} Add user error
+ *    HTTP/1.1 400 Bad request
  * @apiErrorExample {json} List error
  *    HTTP/1.1 500 Internal Server Error
  */
@@ -156,6 +169,10 @@ router.post('/users', (req, res) => {
     userToAdd.hashedPassword = hashedPassword;
     return users.addUser(userToAdd)
       .then(result => {
+        if (!result) {
+          res.sendStatus(400);
+          return;
+        }
         res.status(200).send(camelizeKeys(result));
       });
   })
@@ -168,6 +185,9 @@ router.post('/users', (req, res) => {
  * @api {post} /users/:id User updates
  * @apiVersion 1.0.0
  * @apiGroup Users
+ *
+ * @apiParam {Number} id User unique id
+ *
  * @apiSuccess {Object} user object
  * @apiSuccess {Number} id User id
  * @apiSuccess {String} firstName User first name
@@ -183,7 +203,8 @@ router.post('/users', (req, res) => {
         "lastName": "Ramsey",
         "username": "gramsey"
       }
-
+ * @apiErrorExample {json} User not found
+ *    HTTP/1.1 404 Not Found
  * @apiErrorExample {json} List error
  *    HTTP/1.1 500 Internal Server Error
  */
@@ -200,6 +221,10 @@ router.post('/users/:id', (req, res) => {
 
   return users.updateUser(id, updatedFields)
     .then(result => {
+      if (!result) {
+        res.sendStatus(404);
+        return;
+      }
       res.status(200).set('Content-Type',
        'application/json').send(camelizeKeys(result));
     })
