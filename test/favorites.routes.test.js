@@ -54,7 +54,10 @@ suite('favorites routes', addDatabaseHooks(() => {
           delete res.body.createdAt;
           delete res.body.updatedAt;
         })
-        .expect(200, { id: 3, coffeeId: 2, userId: 1 }, done);
+        .expect(200, {
+          id: 3,
+          coffeeId: 2,
+          userId: 1 }, done);
     });
 
     test('DELETE /favorites/:id', (done) => {
