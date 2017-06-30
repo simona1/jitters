@@ -8,10 +8,7 @@ class Producer {
   getProducers() {
     return knex('producers')
       .orderBy('name')
-      .then((result) => camelizeKeys(result))
-      .catch((err) => {
-        console.error(err);
-    });
+      .then((result) => camelizeKeys(result));
   }
 
   getProducerById(id) {
@@ -23,18 +20,15 @@ class Producer {
       .innerJoin('coffee', 'producers.id', 'coffee.producer_id')
       .where('producers.id', id)
       .orderBy('coffee')
-      .then((result) => camelizeKeys(result))
-      .catch((err) => {
-        console.error(err)
-    });
-  }
-
-  getProducerByName(name) {
-    return knex('producers')
-      .where('producers.name', name)
-      .first()
       .then((result) => camelizeKeys(result));
   }
+
+  // getProducerByName(name) {
+  //   return knex('producers')
+  //     .where('producers.name', name)
+  //     .first()
+  //     .then((result) => camelizeKeys(result));
+  // }
 
   addProducer(producerToAdd) {
     return knex('producers')

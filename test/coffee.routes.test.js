@@ -77,6 +77,15 @@ suite('coffee routes', addDatabaseHooks(() => {
         }, done);
   });
 
+  test('GET /coffee/:id that doesn\'t exist', (done) => {
+    /* eslint-disable max-len */
+    request(server)
+      .get('/coffee/1000')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /plain/)
+      .expect(404, 'Not Found', done);
+  });
+
   test('POST /coffee', (done) => {
     request(server)
       .post('/coffee')
@@ -128,6 +137,22 @@ suite('coffee routes', addDatabaseHooks(() => {
       varieties: 'Heirloom',
       description: 'delicious',
     }, done);
+      /* eslint-enable max-len */
+  });
+
+  test('POST /coffee/:id without name', (done) => {
+    request(server)
+      .post('/coffee/2')
+      .set('Accept', 'application/json')
+      .send({
+        producer_id: 2,
+        // name: 'Ethiopia Bulga',
+        flavor_profile: 'Cotton Candy, Strawberry, Sugar, Tangerine',
+        varieties: 'Heirloom',
+        description: 'delicious',
+      })
+    .expect('Content-Type', /plain/)
+    .expect(400, 'Coffee name required', done);
       /* eslint-enable max-len */
   });
 

@@ -37,10 +37,6 @@ app.use((req, res) => {
   res.sendStatus(404);
 });
 
-app.use((_req, res) => {
-  res.sendStatus(404);
-});
-
 // eslint-disable-next-line max-params
 app.use((err, _req, res, _next) => {
   if (err.output && err.output.statusCode) {

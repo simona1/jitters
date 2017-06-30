@@ -79,14 +79,41 @@ router.post('/login', (req, res) => {
           });
         })
         .catch(err => {
-          console.log(err);
           res.sendStatus(500);
         });
     })
     .catch(err => {
-      console.log(err);
       res.sendStatus(500);
     });
 });
 
+/**
+ * @api {get} /logout Logout the user
+ * @apiVersion 1.0.0
+ * @apiGroup Users
+ * @apiSuccessExample {string} Logout successful
+ *    HTTP/1.1 200 OK
+ * @apiErrorExample {string} 500
+ *    HTTP/1.1 500 Internal Server Error
+ */
+router.get('/logout', (req, res) => {
+  if (!req.cookies.auth) {
+    return res
+      .status(200)
+      .set('Content-Type', 'text/plain')
+      .send('false');
+  }
+  const secret = process.env.JWT_KEY;
+  jwt.verify(req.cookies.auth, secret, (err, payload) => {
+    if (err) {
+      res.sendStatus(500);
+    }
+    payload.loggedIn = false;
+    jwt.sign(payload, secret, (err, token) => {
+      res.cookie('auth', token)
+        .status(200)
+        .send('Logout successful');
+    });
+  });
+});
 module.exports = router;

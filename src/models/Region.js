@@ -10,10 +10,7 @@ class Region {
   getRegions() {
     return knex('regions')
       .orderBy('name')
-      .then((result) => camelizeKeys(result))
-      .catch((err) => {
-        console.error(err);
-    });
+      .then((result) => camelizeKeys(result));
   }
 
   getCoffeeByRegionId(id) {
@@ -25,9 +22,6 @@ class Region {
       .where('regions.id', id)
       .then((result) => {
         return camelizeKeys(result)
-      })
-      .catch((err) => {
-        console.error(err);
       });
   }
 
@@ -36,9 +30,6 @@ class Region {
       .insert(region,'*')
       .then((result) => {
         return camelizeKeys(result)
-      })
-      .catch((err) => {
-        console.error(err);
       });
   }
 
@@ -52,9 +43,6 @@ class Region {
         long: region.long}, '*')
       .then((result) => {
         return camelizeKeys(result)
-      })
-      .catch((err) => {
-        console.error(err);
       });
   }
 

@@ -14,15 +14,16 @@ const coffeeList = new Coffee();
  * @api {get} /coffee List all coffee types
  * @apiVersion 1.0.0
  * @apiGroup Coffee
+ * @apiParam {Number} id Coffee id
  * @apiSuccess {Object[]} coffee Coffee list
- * @apiSuccess {Number} coffee.id Coffee id
- * @apiSuccess {Number} coffee.producer_id Coffee profucer id
- * @apiSuccess {String} coffee.name Coffee name
- * @apiSuccess {String} coffee.description Coffee description
- * @apiSuccess {String} coffee.flavor_profile Coffee flavor profile
- * @apiSuccess {String} coffee.varieties Coffee varieties
- * @apiSuccess {Date} coffee.created_at Created date
- * @apiSuccess {Date} coffee.updated_at Updated date
+ * @apiSuccess {Number} id Coffee id
+ * @apiSuccess {Number} producerId Coffee profucer id
+ * @apiSuccess {String} name Coffee name
+ * @apiSuccess {String} description Coffee description
+ * @apiSuccess {String} flavorProfile Coffee flavor profile
+ * @apiSuccess {String} varieties Coffee varieties
+ * @apiSuccess {Date} created_at Created date
+ * @apiSuccess {Date} updated_at Updated date
  * @apiSuccessExample {json} Success
  *  HTTP/1.1 200 OK
  *    [{
@@ -52,15 +53,18 @@ router.get('/coffee', (req, res) => {
  * @api {get} /coffee/:id Get coffee by id
  * @apiVersion 1.0.0
  * @apiGroup Coffee
+ *
+ * @apiParam {Number} id Coffee unique id
+ *
  * @apiSuccess {Object[]} coffee Coffee object
- * @apiSuccess {Number} coffee.id Coffee id
- * @apiSuccess {Number} coffee.producer_id Coffee profucer id
- * @apiSuccess {String} coffee.name Coffee name
- * @apiSuccess {String} coffee.description Coffee description
- * @apiSuccess {String} coffee.flavor_profile Coffee flavor profile
- * @apiSuccess {String} coffee.varieties Coffee varieties
- * @apiSuccess {Date} coffee.created_at Created date
- * @apiSuccess {Date} coffee.updated_at Updated date
+ * @apiSuccess {Number} id Coffee id
+ * @apiSuccess {Number} producerId Coffee profucer id
+ * @apiSuccess {String} name Coffee name
+ * @apiSuccess {String} description Coffee description
+ * @apiSuccess {String} flavorProfile Coffee flavor profile
+ * @apiSuccess {String} varieties Coffee varieties
+ * @apiSuccess {Date} createdAt Created date
+ * @apiSuccess {Date} updatedAt Updated date
  * @apiSuccessExample {json} Success
  *  HTTP/1.1 200 OK
  *    {
@@ -94,25 +98,26 @@ router.get('/coffee/:id', (req, res) => {
 });
 
 /**
- * @api {post} /coffee Add a new coffee
+ * @api {post} /coffee Add new coffee item
+ * @apiVersion 1.0.0
  * @apiGroup Coffee
- * @apiParam {String} producer_id Coffee producer_id
+ * @apiParam {String} producerId Coffee producer id
  * @apiParam {String} name Coffee name
- * @apiParam {String} flavor_profile Coffee flavor_profile
+ * @apiParam {String} flavorProfile Coffee flavor profile
  * @apiParam {String} varieties Coffee varieties
  * @apiParam {String} description Coffee description
  * @apiParamExample {json} Input
  *    {
- *      "producer_id": "2",
+ *      "producerId": "2",
         "name": "Ethiopia Bulga",
-        "flavor_profile": "Cotton Candy, Strawberry, Sugar, Tangerine",
+        "flavorProfile": "Cotton Candy, Strawberry, Sugar, Tangerine",
         "varieties": "Heirloom",
         "description": "delicious"
  *    }
  * @apiSuccess {Number} id Coffee id
- * @apiParam {String} producer_id Coffee producer_id
+ * @apiParam {String} producerId Coffee producer id
  * @apiParam {String} name Coffee name
- * @apiParam {String} flavor_profile Coffee flavor_profile
+ * @apiParam {String} flavorProfile Coffee flavor profile
  * @apiParam {String} varieties Coffee varieties
  * @apiParam {String} description Coffee description
  * @apiSuccessExample {json} Success
@@ -125,6 +130,9 @@ router.get('/coffee/:id', (req, res) => {
         "varieties": "Heirloom",
         "description": "delicious"
  *    }
+ * @apiErrorExample {json} Missing fields error
+ *    Coffee name required
+ *    HTTP/1.1 400 Bad Request Error
  * @apiErrorExample {json} Add error
  *    HTTP/1.1 500 Internal Server Error
  */
@@ -196,36 +204,42 @@ router.post('/coffee/region', (req, res) => {
 
 /**
  * @api {post} /coffee/:id Update coffee
+ * @apiVersion 1.0.0
  * @apiGroup Coffee
- * @apiParam {String} producer_id Coffee producer_id
+ *
+ * @apiParam {Number} id Coffee unique id
+ *
+ * @apiParam {String} producerId Coffee producer id
  * @apiParam {String} name Coffee name
- * @apiParam {String} flavor_profile Coffee flavor_profile
+ * @apiParam {String} flavorProfile Coffee flavor profile
  * @apiParam {String} varieties Coffee varieties
  * @apiParam {String} description Coffee description
  * @apiParamExample {json} Input
  *    {
- *      "producer_id": "2",
+ *      "producerId": "2",
         "name": "Ethiopia Bulga",
-        "flavor_profile": "Cotton Candy, Strawberry, Sugar, Tangerine",
+        "flavorProfile": "Cotton Candy, Strawberry, Sugar, Tangerine",
         "varieties": "Heirloom",
         "description": "lorem ipsum"
  *    }
  * @apiSuccess {Number} id Coffee id
- * @apiParam {String} producer_id Coffee producer_id
+ * @apiParam {String} producerId Coffee producer id
  * @apiParam {String} name Coffee name
- * @apiParam {String} flavor_profile Coffee flavor_profile
+ * @apiParam {String} flavorProfile Coffee flavor_profile
  * @apiParam {String} varieties Coffee varieties
  * @apiParam {String} description Coffee description
  * @apiSuccessExample {json} Success
  *    HTTP/1.1 200 OK
  *    {
  *      "id": 2,
- *      "producer_id": "2",
+ *      "producerId": "2",
         "name": "Ethiopia Bulga",
-        "flavor_profile": "Cotton Candy, Strawberry, Sugar, Tangerine",
+        "flavorProfile": "Cotton Candy, Strawberry, Sugar, Tangerine",
         "varieties": "Heirloom",
         "description": "delicious"
  *    }
+ * @apiErrorExample {json} Coffee list not found
+ *    HTTP/1.1 404 Not Found
  * @apiErrorExample {json} Add error
  *    HTTP/1.1 500 Internal Server Error
  */
@@ -241,6 +255,10 @@ router.post('/coffee/:id', (req, res) => {
 
   coffeeList.updateCoffee(coffee)
   .then(coffee => {
+    if (!coffee) {
+      res.sendStatus(404);
+      return;
+    }
     res.setHeader('Content-Type', 'application/json')
     return res.send(coffee[0]);
   })
@@ -251,18 +269,23 @@ router.post('/coffee/:id', (req, res) => {
 
 /**
  * @api {delete} /coffee/:id Delete coffee
+ * @apiVersion 1.0.0
  * @apiGroup Coffee
- * @apiParam {id} id Coffee id
+ *
+ * @apiParam {Number} id Coffee unique id
+ *
  * @apiSuccessExample {json} Success
  *    HTTP/1.1 200 OK
  *    {
  *      "id": 2,
- *      "producer_id": "2",
+ *      "producerId": "2",
         "name": "Ethiopia Bulga",
-        "flavor_profile": "Cotton Candy, Strawberry, Sugar, Tangerine",
+        "flavorProfile": "Cotton Candy, Strawberry, Sugar, Tangerine",
         "varieties": "Heirloom",
         "description": "Lorem ipsum"
  *    }
+ * @apiErrorExample {json} Invalid coffee id
+ *    HTTP/1.1 404 Not Found
  * @apiErrorExample {json} Delete error
  *    HTTP/1.1 500 Internal Server Error
  */
@@ -277,8 +300,9 @@ router.delete('/coffee/:id', (req, res) => {
   .then(deletedCoffee => {
     if (!deletedCoffee[0]) {
         res.sendStatus(404);
+        return;
       }
-    res.send(deletedCoffee)
+    res.send(deletedCoffee);
   })
   .catch(err => {
       res.status(500).send(err);
