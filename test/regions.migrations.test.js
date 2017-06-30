@@ -2,8 +2,8 @@ process.env.NODE_ENV = 'test';
 
 const assert = require('chai').assert;
 const { suite, test } = require('mocha');
-const knex = require('../knex');
-const { addDatabaseHooks } = require('./utils')
+const knex = require('../knex.js');
+const { addDatabaseHooks } = require('./utils.js')
 suite('regions migrations', addDatabaseHooks(() => {
   test('regions columns', (done) => {
     knex('regions').columnInfo()
@@ -26,21 +26,21 @@ suite('regions migrations', addDatabaseHooks(() => {
           country_id: {
             type: 'integer',
             maxLength: null,
-            nullable: false,
+            nullable: true,
             defaultValue: null
           },
 
           lat: {
-            type: 'real',
+            type: 'numeric',
             maxLength: null,
-            nullable: false,
+            nullable: true,
             defaultValue: null
           },
 
           long: {
-            type: 'real',
+            type: 'numeric',
             maxLength: null,
-            nullable: false,
+            nullable: true,
             defaultValue: null
           },
 
@@ -66,7 +66,6 @@ suite('regions migrations', addDatabaseHooks(() => {
             `Column ${column} is not the same`
           );
         }
-
         done();
       })
       .catch((err) => {
