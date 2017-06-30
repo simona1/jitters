@@ -17,16 +17,17 @@ let producers = new Producer();
  * @apiVersion 1.0.0
  * @apiGroup Producers
  * @apiSuccess {Object[]} producers Producers list
- * @apiSuccess {Number} producers.id Producer id
- * @apiSuccess {String} producers.name Producer name
- * @apiSuccess {Date} producers.created_at Created date
- * @apiSuccess {Date} producers.updated_at Updated date
+ * @apiSuccess {Number} id Producer id
+ * @apiSuccess {String} name Producer name
+ * @apiSuccess {Number} countryId Producer's Country
+ * @apiSuccess {Date} createdAt Created date
+ * @apiSuccess {Date} updatedAt Updated date
  * @apiSuccessExample {json} Success
  *    HTTP/1.1 200 OK
  *    [ {
         "id": 1,
         "name": "Blue Bottle Coffee",
-        "country_id": 1,
+        "countryId": 1,
         "createdAt": "2017-06-23T14:56:16.000Z",
         "updatedAt": "2017-06-23T14:56:16.000Z"
     } ]
@@ -53,7 +54,8 @@ router.get('/producers', (req, res) => {
  * @api {get} /producers/:id List all producer's coffees
  * @apiVersion 1.0.0
  * @apiGroup Producers
- * @apiSuccess {Object[]} producers Producers Coffee list
+ * @apiParam {Number} id Producer's id
+ * @apiSuccess {Object[]} producers Producer's Coffee list
  * @apiSuccess {Number} producersId Producer id
  * @apiSuccess {String} producer Producer name
  * @apiSuccess {Number} coffeeId Coffee id
@@ -90,17 +92,30 @@ router.get('/producers/:id', (req, res) => {
  * @api {post} /producers/ Add a producer
  * @apiVersion 1.0.0
  * @apiGroup Producers
+ * @apiParam {Number} id Producer id
+ * @apiParam {String} name Producer name
+ * @apiParam {Number} countryId Country id
+ * @apiParamExample {json} Input
+ *    {
+ *      "id": 1
+ *      "name": "Blue Bottle Coffee",
+ *      "countryId": 1,
+ *    }
  * @apiSuccess {Object} producer Producer added
- * @apiSuccess {Number} producers.id Producer id
- * @apiSuccess {String} producer.name Producer name
- * @apiSuccess {Number} country_id Country id
+ * @apiSuccess {Number} id Producer id
+ * @apiSuccess {String} name Producer name
+ * @apiSuccess {Number} countryId Country id
  * @apiSuccessExample {json} Success
  *    HTTP/1.1 200 OK
  *    {
-        "id": 1
-        "name": "Blue Bottle Coffee",
-        "country_id": 1,
-      }
+ *      "id": 1
+ *      "name": "Blue Bottle Coffee",
+ *      "countryId": 1,
+ *    }
+ * @apiErrorExample {String} Name error
+ *    HTTP/1.1 400 Name required
+ * @apiErrorExample {String} Country id error
+ *    HTTP/1.1 400 Country id required
  * @apiErrorExample {json} List error
  *    HTTP/1.1 500 Internal Server Error
  */
@@ -139,17 +154,18 @@ router.post('/producers', hasToken, isLoggedIn, (req, res) => {
  * @api {post} /producers/id Update a producer
  * @apiVersion 1.0.0
  * @apiGroup Producers
+ * @apiParam {Number} id Producer's id
  * @apiSuccess {Object} producer Producer updated
- * @apiSuccess {Number} producers.id Producer id
- * @apiSuccess {String} producer.name Producer name
- * @apiSuccess {Number} country_id Country id
+ * @apiSuccess {Number} id Producer id
+ * @apiSuccess {String} name Producer name
+ * @apiSuccess {Number} countryId Country id
  * @apiSuccessExample {json} Success
  *    HTTP/1.1 200 OK
  *    {
-        "id": 1
-        "name": "Blue Bottle Coffee",
-        "country_id": 1,
-      }
+ *      "id": 1
+ *      "name": "Blue Bottle Coffee",
+ *      "countryId": 1,
+ *    }
  * @apiErrorExample {json} Producer not found
  *    HTTP/1.1 404 Not Found
  * @apiErrorExample {json} List error
