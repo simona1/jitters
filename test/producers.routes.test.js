@@ -53,7 +53,7 @@ suite('producers routes', addDatabaseHooks(() => {
       /* eslint-enable max-len */
   });
 
-  test('GET /producers:id', (done) => {
+  test('GET /producers/:id', (done) => {
     /* eslint-disable max-len */
     agent
       .get('/producers/1')
@@ -74,6 +74,15 @@ suite('producers routes', addDatabaseHooks(() => {
         }], done);
 
       /* eslint-enable max-len */
+  });
+
+  test('GET /producers/:id that doesn\'t exist', (done) => {
+    request(server)
+      .get('/producers/1000')
+      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
+      .expect('Content-Type', /plain/)
+      .expect(404, 'Not Found', done);
   });
 
   test('POST /producers', (done) => {

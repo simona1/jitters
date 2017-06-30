@@ -7,10 +7,7 @@ class Coffee {
   getCoffee() {
     return knex('coffee')
       .orderBy('name')
-      .then((result) => camelizeKeys(result))
-      .catch((err) => {
-        console.error(err);
-    });
+      .then((result) => camelizeKeys(result));
   }
 
   getCoffeeById(id) {
@@ -19,9 +16,6 @@ class Coffee {
       .first()
       .then((result) => {
         return camelizeKeys(result);
-      })
-      .catch((err) => {
-        console.error(err);
       });
   }
 
@@ -30,10 +24,7 @@ class Coffee {
       .insert(coffee,'*')
       .then((result) => {
         return camelizeKeys(result)
-      })
-      .catch((err) => {
-        console.error(err);
-    });
+      });
   }
 
   updateCoffee(coffee) {
@@ -47,10 +38,7 @@ class Coffee {
         description: coffee.description}, '*')
       .then((result) => {
         return camelizeKeys(result)
-      })
-      .catch((err) => {
-        console.error(err);
-    });
+      });
   }
 
   deleteCoffee(id) {
@@ -60,15 +48,11 @@ class Coffee {
       .returning('*')
       .then((result) => {
         return camelizeKeys(result)
-      })
-      .catch((err) => {
-        console.error(err);
-    });
+      });
   }
 
   // just used for checking that both coffee and region exist
   getCoffeeAndRegionIds(coffeeId, regionId) {
-    console.log(coffeeId, regionId);
     return knex.select('coffee.id as coffee_id','regions.id as region_id')
       .from('coffee').crossJoin('regions')
       .where('coffee.id', coffeeId).where('regions.id', regionId)
@@ -81,7 +65,6 @@ class Coffee {
 
   // add a record to coffee_joins table
   addCoffeeAndRegionIds(ids) {
-    console.log(decamelizeKeys(ids));
     return knex('coffee_regions')
       .insert(decamelizeKeys(ids), '*')
       .then((result) => camelizeKeys(result[0]));
