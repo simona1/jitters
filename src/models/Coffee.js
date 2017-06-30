@@ -58,7 +58,6 @@ class Coffee {
       .where('coffee.id', coffeeId).where('regions.id', regionId)
       .first()
       .then((result) => {
-        console.log(result);
         return camelizeKeys(result);
       });
   }
