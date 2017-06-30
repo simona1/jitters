@@ -57,7 +57,10 @@ router.get('/users', (req, res) => {
  * @api {get} /users/:id List user with the given id
  * @apiVersion 1.0.0
  * @apiGroup Users
- * @apiSuccess {Object} user object
+ *
+ * @apiParam {Number} id User unique id
+ *
+ * @apiSuccess {Object} User object
  * @apiSuccess {Number} id User id
  * @apiSuccess {String} firstName User first name
  * @apiSuccess {String} lastName User last name
@@ -72,6 +75,8 @@ router.get('/users', (req, res) => {
         "lastName": "Admin",
         "username": "coffeeAdmin"
       }
+ * @apiErrorExample {json} User not found
+ *    HTTP/1.1 404 Not Found
  * @apiErrorExample {json} List error
  *    HTTP/1.1 500 Internal Server Error
  */
@@ -168,6 +173,9 @@ router.post('/users', (req, res) => {
  * @api {post} /users/:id User updates
  * @apiVersion 1.0.0
  * @apiGroup Users
+ *
+ * @apiParam {Number} id User unique id
+ *
  * @apiSuccess {Object} user object
  * @apiSuccess {Number} id User id
  * @apiSuccess {String} firstName User first name

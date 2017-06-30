@@ -16,12 +16,12 @@ let regions = new Region();
  * @apiVersion 1.0.0
  * @apiGroup Regions
  * @apiSuccess {Object[]} regions Regions list
- * @apiSuccess {Number} regions.id Region id
- * @apiSuccess {String} regions.name Region name
- * @apiSuccess {String} regions.lat Region latitude
- * @apiSuccess {String} regions.long Region longitude
- * @apiSuccess {Date} regions.created_at Created date
- * @apiSuccess {Date} regions.updated_at Updated date
+ * @apiSuccess {Number} id Region id
+ * @apiSuccess {String} name Region name
+ * @apiSuccess {String} lat Region latitude
+ * @apiSuccess {String} long Region longitude
+ * @apiSuccess {Date} Created date
+ * @apiSuccess {Date} Updated date
  * @apiSuccessExample {json} Success
  *    HTTP/1.1 200 OK
  *    [ {
@@ -49,19 +49,21 @@ router.get('/regions', (req, res) => {
  * @api {get} /regions/:id Find coffee by region id
  * @apiVersion 1.0.0
  * @apiGroup Regions
+ *
+ * @apiParam {Number} id Regions unique id
+ *
  * @apiSuccess {Object[]} coffee Coffee list
- * @apiSuccess {Number} coffee.id Coffee id
- * @apiSuccess {Number} coffee.producer_id Coffee profucer id
- * @apiSuccess {String} coffee.name Coffee name
- * @apiSuccess {String} coffee.description Coffee description
- * @apiSuccess {String} coffee.flavor_profile Coffee flavor profile
- * @apiSuccess {String} coffee.varieties Coffee varieties
- * @apiSuccess {String} region.name Region name
- * @apiSuccess {String} regions.name Region name
- * @apiSuccess {String} regions.lat Region latitude
- * @apiSuccess {String} regions.long Region longitude
- * @apiSuccess {Date} regions.created_at Created date
- * @apiSuccess {Date} regions.updated_at Updated date
+ * @apiSuccess {Number} id Coffee id
+ * @apiSuccess {Number} producerId Coffee profucer id
+ * @apiSuccess {String} name Coffee name
+ * @apiSuccess {String} description Coffee description
+ * @apiSuccess {String} flavorProfile Coffee flavor profile
+ * @apiSuccess {String} varieties Coffee varieties
+ * @apiSuccess {String} regionName Region name
+ * @apiSuccess {String} lat Region latitude
+ * @apiSuccess {String} long Region longitude
+ * @apiSuccess {Date} Created date
+ * @apiSuccess {Date} Updated date
  * @apiSuccessExample {json} Success
  *    HTTP/1.1 200 OK
  *    [{
@@ -100,7 +102,7 @@ router.get('/regions/:id', (req, res) => {
 /**
  * @api {post} /regions Add a new region
  * @apiGroup Regions
- * @apiParam {String} country_id Region country_id
+ * @apiParam {String} countryId Country id
  * @apiParam {String} name Region name
  * @apiParamExample {json} Input
  *    {
@@ -108,10 +110,10 @@ router.get('/regions/:id', (req, res) => {
         "name": "kona"
  *    }
  * @apiSuccess {Number} id Region id
- * @apiParam {String} country_id Region country_id
+ * @apiParam {String} countryId Country id
  * @apiParam {String} name Region name
- * @apiSuccess {String} regions.lat Region latitude
- * @apiSuccess {String} regions.long Region longitude
+ * @apiSuccess {String} lat Region latitude
+ * @apiSuccess {String} long Region longitude
  * @apiSuccessExample {json} Success
  *    HTTP/1.1 200 OK
  *    {
@@ -121,6 +123,8 @@ router.get('/regions/:id', (req, res) => {
  *      "lat": "19.639994",
  *      "long": "-155.9969261",
  *    }
+ * @apiErrorExample {json} Missing fields
+ *    HTTP/1.1 400 Bad request
  * @apiErrorExample {json} Add error
  *    HTTP/1.1 500 Internal Server Error
  */
@@ -163,6 +167,9 @@ fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${region.name}&
 /**
  * @api {post} /regions/:id Update a region
  * @apiGroup Regions
+ *
+ * @apiParam {Number} id Regions unique id
+ *
  * @apiParam {String} country_id Region country_id
  * @apiParam {String} name Region name
  * @apiParamExample {json} Input
@@ -184,6 +191,8 @@ fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${region.name}&
  *      "lat": "22.0964396",
  *      "long": "-159.5261238",
  *    }
+ * @apiErrorExample {json} Missing fields
+ *    HTTP/1.1 400 Bad request
  * @apiErrorExample {json} Add error
  *    HTTP/1.1 500 Internal Server Error
  */

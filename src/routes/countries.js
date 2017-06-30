@@ -14,12 +14,12 @@ let countries = new Country();
  * @apiVersion 1.0.0
  * @apiGroup Countries
  * @apiSuccess {Object[]} countries Countries list
- * @apiSuccess {Number} countries.id Country id
- * @apiSuccess {String} countries.name Country name
- * @apiSuccess {String} countries.lat Country latitude
- * @apiSuccess {String} countries.long Country longitude
- * @apiSuccess {Date} countries.created_at Created date
- * @apiSuccess {Date} countries.updated_at Updated date
+ * @apiSuccess {Number} id Country id
+ * @apiSuccess {String} name Country name
+ * @apiSuccess {String} lat Country latitude
+ * @apiSuccess {String} long Country longitude
+ * @apiSuccess {Date} createdAt Created date
+ * @apiSuccess {Date} updatedAt Updated date
  * @apiSuccessExample {json} Success
  *    HTTP/1.1 200 OK
  *    [ {
@@ -47,19 +47,22 @@ router.get('/countries', (req, res) => {
  * @api {get} /countries/:id Find coffee by country id
  * @apiVersion 1.0.0
  * @apiGroup Countries
+ *
+ * @apiParam {Number} id Country unique id
+ *
  * @apiSuccess {Object[]} coffee Coffee list
- * @apiSuccess {Number} coffee.id Coffee id
- * @apiSuccess {Number} coffee.producer_id Coffee profucer id
- * @apiSuccess {String} coffee.name Coffee name
- * @apiSuccess {String} coffee.description Coffee description
- * @apiSuccess {String} coffee.flavor_profile Coffee flavor profile
- * @apiSuccess {String} coffee.varieties Coffee varieties
- * @apiSuccess {String} country.name Country name
- * @apiSuccess {String} regions.name Region name
- * @apiSuccess {String} regions.lat Region latitude
- * @apiSuccess {String} regions.long Region longitude
- * @apiSuccess {Date} regions.created_at Created date
- * @apiSuccess {Date} regions.updated_at Updated date
+ * @apiSuccess {Number} id Coffee id
+ * @apiSuccess {Number} producerId Coffee producer id
+ * @apiSuccess {String} name Coffee name
+ * @apiSuccess {String} description Coffee description
+ * @apiSuccess {String} flavorProfile Coffee flavor profile
+ * @apiSuccess {String} varieties Coffee varieties
+ * @apiSuccess {String} countryName Country name
+ * @apiSuccess {String} regionName Region name
+ * @apiSuccess {String} lat Region latitude
+ * @apiSuccess {String} long Region longitude
+ * @apiSuccess {Date} regions Created date
+ * @apiSuccess {Date} regions Updated date
  * @apiSuccessExample {json} Success
  *    HTTP/1.1 200 OK
  *    [{
