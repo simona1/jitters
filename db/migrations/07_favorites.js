@@ -3,8 +3,9 @@
 exports.up = function(knex) {
   return knex.schema.createTable('favorites', (table) => {
     table.increments('id').primary();
-    table.integer('user_id').references('users.id').notNullable().onDelete('CASCADE');
-    table.integer('coffee_id').references('coffee.id').notNullable().onDelete('CASCADE');
+    // With delete on cascade wouldn't the coffee and user get deleted if favorite is deleted?
+    table.integer('user_id').references('users.id').notNullable()
+    table.integer('coffee_id').references('coffee.id').notNullable()
     table.timestamps(true, true);
   });
 };

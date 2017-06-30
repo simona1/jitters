@@ -4,15 +4,16 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const humps = require('humps');
 const jwt = require('jsonwebtoken');
-
 const Favorite = require('../models/Favorite.js');
 const { hasToken, isLoggedIn, isAdministrator } = require('./access.js');
 
 const router = express.Router();
 
 const favorite = new Favorite();
+
 router.get('/favorites/:id', hasToken, isLoggedIn, (req,res) => {
   let id = req.params.id;
+
   favorite.getAllFavoritesByUserId(id)
     .then(favorites => {
       res.send(favorites);
@@ -86,6 +87,7 @@ router.get('/favorites/:id', hasToken, isLoggedIn, (req,res) => {
   //       res.status(500).send(err);
   //   });
   // });
+
 
 
 

@@ -69,9 +69,7 @@ suite('favorites routes', addDatabaseHooks(() => {
         createdAt: '2017-06-23T14:56:16.000Z',
         updatedAt: '2017-06-23T14:56:16.000Z'
       }], done);
-
-  });
-
+    });
   }));
   /* eslint-enable max-len */
 }));
