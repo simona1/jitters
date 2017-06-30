@@ -31,12 +31,18 @@ let producers = new Producer();
         "createdAt": "2017-06-23T14:56:16.000Z",
         "updatedAt": "2017-06-23T14:56:16.000Z"
     } ]
+ * @apiErrorExample {json} Producers list not found
+ *    HTTP/1.1 404 Not Found
  * @apiErrorExample {json} List error
  *    HTTP/1.1 500 Internal Server Error
  */
 router.get('/producers', (req, res) => {
   producers.getProducers()
     .then((producers) => {
+      if (!producers) {
+        res.sendStatus(404);
+        return;
+      }
       res.send(producers);
     })
     .catch((err) => {
@@ -132,6 +138,10 @@ router.post('/producers', hasToken, isLoggedIn, (req, res) => {
 
   producers.addProducer(producerToAdd)
     .then((result) => {
+      if (!result) {
+        res.sendStatus(400);
+        return;
+      }
       res.json(result);
     })
     .catch(err => {
