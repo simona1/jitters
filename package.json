@@ -4,6 +4,8 @@
   "description": "Coffee database API",
   "main": "index.js",
   "scripts": {
+    "heroku-postbuild": "knex migrate:latest",
+    "knex": "knex",
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "mocha",
@@ -28,7 +30,6 @@
     "bcrypt": "1.0.2",
     "body-parser": "1.17.2",
     "cookie-parser": "1.4.3",
-    "dotenv": "4.0.0",
     "express": "4.15.3",
     "humps": "2.0.1",
     "jsonwebtoken": "7.4.1",
@@ -43,5 +44,8 @@
     "mocha": "3.4.2",
     "nodemon": "1.11.0",
     "supertest": "3.0.0"
+  },
+  "engines": {
+    "node": "8.1.2"
   }
 }
