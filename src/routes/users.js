@@ -40,12 +40,18 @@ const router = express.Router();
         "username": "gramsey"
       }
     ]
+ * @apiErrorExample {json} User list not found
+ *    HTTP/1.1 404 Not Found
  * @apiErrorExample {json} List error
  *    HTTP/1.1 500 Internal Server Error
  */
 router.get('/users', (req, res) => {
   users.getUsers()
     .then((users) => {
+      if (!users) {
+        res.sendStatus(404);
+        return;
+      }
       res.send(users);
     })
     .catch((err) => {
@@ -129,6 +135,8 @@ const REQUIRED_FIELDS = {
  *    Last name is required.
  *    Password is required.
  *    Username is required.
+ * @apiErrorExample {json} Add user error
+ *    HTTP/1.1 400 Bad request
  * @apiErrorExample {json} List error
  *    HTTP/1.1 500 Internal Server Error
  */
@@ -161,6 +169,10 @@ router.post('/users', (req, res) => {
     userToAdd.hashedPassword = hashedPassword;
     return users.addUser(userToAdd)
       .then(result => {
+        if (!result) {
+          res.sendStatus(400);
+          return;
+        }
         res.status(200).send(camelizeKeys(result));
       });
   })
@@ -191,7 +203,8 @@ router.post('/users', (req, res) => {
         "lastName": "Ramsey",
         "username": "gramsey"
       }
-
+ * @apiErrorExample {json} User not found
+ *    HTTP/1.1 404 Not Found
  * @apiErrorExample {json} List error
  *    HTTP/1.1 500 Internal Server Error
  */
@@ -208,6 +221,10 @@ router.post('/users/:id', (req, res) => {
 
   return users.updateUser(id, updatedFields)
     .then(result => {
+      if (!result) {
+        res.sendStatus(404);
+        return;
+      }
       res.status(200).set('Content-Type',
        'application/json').send(camelizeKeys(result));
     })

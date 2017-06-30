@@ -30,12 +30,18 @@ let countries = new Country();
         "createdAt": "2017-06-23T14:56:16.000Z",
         "updatedAt": "2017-06-23T14:56:16.000Z"
     }]
+ * @apiErrorExample {json} Countries list not found
+ *    HTTP/1.1 404 Not Found
  * @apiErrorExample {json} List error
  *    HTTP/1.1 500 Internal Server Error
  */
 router.get('/countries', (req, res) => {
   countries.getCountries()
     .then(countries => {
+      if (!countries) {
+        res.sendStatus(404);
+        return;
+      }
       res.send(countries);
     })
     .catch(err => {

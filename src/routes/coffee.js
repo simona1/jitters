@@ -238,6 +238,8 @@ router.post('/coffee/region', (req, res) => {
         "varieties": "Heirloom",
         "description": "delicious"
  *    }
+ * @apiErrorExample {json} Coffee list not found
+ *    HTTP/1.1 404 Not Found
  * @apiErrorExample {json} Add error
  *    HTTP/1.1 500 Internal Server Error
  */
@@ -253,6 +255,10 @@ router.post('/coffee/:id', (req, res) => {
 
   coffeeList.updateCoffee(coffee)
   .then(coffee => {
+    if (!coffee) {
+      res.sendStatus(404);
+      return;
+    }
     res.setHeader('Content-Type', 'application/json')
     return res.send(coffee[0]);
   })
@@ -294,8 +300,9 @@ router.delete('/coffee/:id', (req, res) => {
   .then(deletedCoffee => {
     if (!deletedCoffee[0]) {
         res.sendStatus(404);
+        return;
       }
-    res.send(deletedCoffee)
+    res.send(deletedCoffee);
   })
   .catch(err => {
       res.status(500).send(err);
